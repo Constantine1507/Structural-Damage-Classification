@@ -21,3 +21,7 @@ venv/
 # Curated final predictions; source data remain excluded
 !submissions/010_Constantine(10).csv
 !submissions/011_Constantine_candidate.csv
+
+# Private training checkpoints and intermediate predictions
+artifacts/
+!submissions/012_Constantine_leakage_fixed.csv
