@@ -28,6 +28,13 @@ class SeismicFeatures(BaseEstimator, TransformerMixin):
     def transform(self, X):
         """Return a fresh DataFrame with safe ratios, counts and material flags."""
         x = X.copy().reset_index(drop=True)
+        x = x.drop(columns=["damage_grade"], errors="ignore")
+        geography = [c for c in ("district_id", "vdcmun_id", "ward_id") if c in x]
+        if not self.use_geo:
+            x = x.drop(columns=geography)
+        else:
+            for c in geography:
+                x[c] = x[c].astype(str)
         ids = x.pop("building_id").astype("string").fillna("").str.zfill(12)
         for name in list(x.columns):
             if name.startswith("has_"):

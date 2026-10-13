@@ -8,7 +8,7 @@ from .train import ordered_probabilities
 from .evaluate import decide
 
 
-def predict(data, model_path, output="submissions/submission.csv", label_style="auto"):
+def predict(data, model_path, output="submissions/submission.csv", label_style="numeric"):
     """Predict with saved fitted Pipelines; preserve sample_submission row order."""
     _, test, sample = read_competition_data(data)
     bundle = joblib.load(model_path)
@@ -25,7 +25,7 @@ def main():
     parser.add_argument("--data", default="data")
     parser.add_argument("--model", default="submissions/model_bundle.joblib")
     parser.add_argument("--output", default="submissions/submission.csv")
-    parser.add_argument("--label-style", choices=["auto", "numeric", "grade"], default="auto")
+    parser.add_argument("--label-style", choices=["auto", "numeric", "grade"], default="numeric")
     args = parser.parse_args()
     result = predict(args.data, args.model, args.output, args.label_style)
     print(result.head(), f"\nSaved {len(result)} rows to {args.output}")

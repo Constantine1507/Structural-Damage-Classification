@@ -1,0 +1,147 @@
+{
+  "provenance": "Recovered from actual earlier-session execution outputs; temporary trained models and per-row new experiment predictions were not retained. These are not results of scripts/train.py.",
+  "validation_is_adaptive": true,
+  "kaggle_candidate_score": null,
+  "target_achieved": false,
+  "promote_candidate": false,
+  "baseline_selection_macro_f1": 0.6000826412835684,
+  "experiments": [
+    {
+      "name": "te_lgb_63",
+      "leaves": 63,
+      "trees": 650,
+      "class_weight_power": 0,
+      "standalone_selection_macro_f1": 0.5847289983741899,
+      "best_blend_selection_macro_f1": 0.5994377097543603
+    },
+    {
+      "name": "te_lgb_63_balanced",
+      "leaves": 63,
+      "trees": 650,
+      "class_weight_power": 0.4,
+      "standalone_selection_macro_f1": 0.5842943860987169,
+      "best_blend_selection_macro_f1": 0.5994291529695598
+    },
+    {
+      "name": "te_lgb_127",
+      "leaves": 127,
+      "trees": 750,
+      "class_weight_power": 0.25,
+      "standalone_selection_macro_f1": 0.5829906518776706,
+      "best_blend_selection_macro_f1": 0.5990710236955934
+    },
+    {
+      "name": "te_lgb_31_ova",
+      "leaves": 31,
+      "trees": 850,
+      "class_weight_power": 0.25,
+      "standalone_selection_macro_f1": 0.581764524453128,
+      "best_blend_selection_macro_f1": 0.5993801199475974
+    },
+    {
+      "name": "te_lgb_coarse",
+      "leaves": 63,
+      "trees": 850,
+      "class_weight_power": 0.3,
+      "standalone_selection_macro_f1": 0.5739506342606618,
+      "best_blend_selection_macro_f1": 0.5991895077091771
+    },
+    {
+      "name": "te_lgb_127_smooth",
+      "leaves": 127,
+      "trees": 1000,
+      "class_weight_power": 0.4,
+      "standalone_selection_macro_f1": 0.5819978157096676,
+      "best_blend_selection_macro_f1": 0.5988188310282034
+    },
+    {
+      "name": "te_lgb_31_long",
+      "leaves": 31,
+      "trees": 1300,
+      "class_weight_power": 0.25,
+      "standalone_selection_macro_f1": 0.5824188946393057,
+      "best_blend_selection_macro_f1": 0.5988625818732795
+    },
+    {
+      "name": "te_lgb_127_ova",
+      "leaves": 127,
+      "trees": 750,
+      "class_weight_power": 0.35,
+      "standalone_selection_macro_f1": 0.5828164118806388,
+      "best_blend_selection_macro_f1": 0.5993897520544214
+    }
+  ],
+  "regional": {
+    "selected_shrinkage": 0.1,
+    "selection_macro_f1": 0.6002794950280317,
+    "baseline_pooled_macro_f1": 0.6011981355546281,
+    "candidate_pooled_macro_f1": 0.6013795567737634,
+    "delta": 0.0001814212191353,
+    "paired_group_bootstrap_95_ci": [
+      -0.0001672139789578808,
+      0.0005384330334488734
+    ],
+    "bootstrap_replicates": 1000,
+    "bootstrap_seed": 20261013,
+    "group": "building_id prefix 6",
+    "fold_baseline": [
+      0.6033676118796533,
+      0.6028867615869531,
+      0.5971649408614402
+    ],
+    "fold_candidate": [
+      0.6033767641185687,
+      0.6028601349967099,
+      0.5977334483613154
+    ]
+  },
+  "baseline_class_f1": [
+    0.691829986,
+    0.473322695,
+    0.491380493,
+    0.588372848,
+    0.761084655
+  ],
+  "baseline_confusion_matrix": [
+    [
+      4289,
+      1267,
+      350,
+      182,
+      117
+    ],
+    [
+      1021,
+      3411,
+      1688,
+      526,
+      224
+    ],
+    [
+      485,
+      1780,
+      5373,
+      2367,
+      735
+    ],
+    [
+      192,
+      573,
+      2332,
+      9058,
+      2319
+    ],
+    [
+      207,
+      512,
+      1386,
+      4183,
+      15423
+    ]
+  ],
+  "input_sha256": {
+    "train.csv": "231c9bf0430faa9c1d2281b4edbcd9ce0d7a863c6ff67042a8fbc992469d37bb",
+    "test.csv": "d732c3070b878ebc1346907d50e6a6c1a6a9db0eadf0790631b37c03d3ba6c5c",
+    "incumbent_submission": "4f10e2481c0aea634f098081d6ed3626d7a006c80ccdd10587eb848aaf4f8223"
+  }
+}

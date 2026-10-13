@@ -22,7 +22,7 @@ Of 533,465 training rows, **29,104 rows (5.46%)** belong to **10,695 groups** of
 2. **Adaptive audit reuse**: older notebook metadata includes `selection_is_adaptive=True` and `pristine_independent_test=False`; prior `0.601198` validation is not a pristine independent estimate. Do not claim it represents a new Kaggle score.
 3. **Threshold/ensemble selection on audit**: tune on CAL and evaluate AUDIT once after freezing the recipe; repeated score peeking recreates validation overfitting.
 4. **Geographical data shift**: random split shares wards between train/test and represents the competition's likely random split; a group-ward split tests transfer to unseen wards but measures a different and harder deployment scenario.
-5. **CSV schema mismatch**: although problem text states integers 1–5, the official sample_submission in this upload uses strings `Grade 1` through `Grade 5`. The prediction writer must follow `sample_submission.csv` and validate IDs and labels before upload.
+5. **CSV schema mismatch**: although problem text states integers 1–5, the official sample_submission in this upload uses strings `Grade 1` through `Grade 5`. The default writer follows the explicit assignment with integer grades 1–5, while preserving sample ID order. String labels remain an explicit option if required by the competition validator.
 
 ## Current conclusions
 

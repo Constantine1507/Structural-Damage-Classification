@@ -29,7 +29,8 @@ Structural-Damage-Classification/
 ├── notebooks/
 │   ├── 01_eda.ipynb
 │   ├── 02_modeling.ipynb
-│   └── 03_submission.ipynb
+│   ├── 03_submission.ipynb
+│   └── 04_experiment_review.ipynb
 ├── scripts/
 │   ├── __init__.py
 │   ├── feature_engineering.py
@@ -42,6 +43,9 @@ Structural-Damage-Classification/
 ├── models/                    # reserved for saved model checkpoints
 ├── submissions/               # generated CSV + audit JSON + joblib (ignored by Git)
 └── reports/
+    ├── EXPERIMENT_RESULTS.md
+    ├── experiment_history.json
+    ├── LEAKAGE_AUDIT.md
     └── figures/              # generated analysis figures
 ```
 
@@ -68,7 +72,7 @@ python -m scripts.train --data data              # full non-neural ensemble expe
 python -m scripts.predict --data data --model submissions/model_bundle.joblib --output submissions/submission.csv
 ```
 
-3. Submit `submissions/submission.csv` via the competition's **Submit Predictions** tab. The CSV columns are exactly `building_id,damage_grade`, in the order of `sample_submission.csv`, without an index. **Important source discrepancy:** the assignment describes integer 1–5 predictions, but the actual uploaded `sample_submission.csv` stores labels as `Grade 1`–`Grade 5`. The repository now defaults to matching the exact official sample style (`--label-style auto`). Verify the submission validator if Kaggle rejects either format. Never learn from sample submission's placeholder grade values.
+3. Treat the generated CSV as a **candidate**. The default output follows the explicit assignment: integer `damage_grade` 1–5, columns `building_id,damage_grade`, sample ID order, and no index. The uploaded sample uses `Grade 1` strings; `--label-style grade` remains an explicit option if the competition validator requires it. Never train on the sample placeholder labels. Use distinct `--output submissions/run_name` directories to preserve prior runs. Do not overwrite the incumbent CSV.
 
 ## Methodology / analytical workflow
 
@@ -78,20 +82,24 @@ python -m scripts.predict --data data --model submissions/model_bundle.joblib --
 4. **Leakage control:** features derived using training-only reference statistics. Post-earthquake floor/height measurements are dropped when present because they can encode actual damage. Avoid target encoding performed before splitting.
 5. **Preprocessing:** an sklearn **Pipeline** encloses a fitted `SeismicFeatures` transformer followed by **ColumnTransformer** (median imputation for numerical columns; imputation + ordinal encoding for LightGBM; native string categories for CatBoost). Unknown categories at inference are supported.
 6. **Candidate models:** LightGBM, class-weighted LightGBM, no-geography ablation and CatBoost with native categorical input. The assignment's no-neural-network rule is respected.
-7. **Data splits:** stratified FIT 70% / CAL 15% / untouched AUDIT 15%. Model comparison and per-grade log-probability offsets use CAL **only**. AUDIT is evaluated once after selection. This is an estimate of generalization, not Kaggle public/private truth.
+7. **Data splits:** stratified FIT 70% / CAL 15% / AUDIT 15% reserved within this run. Model comparison and per-grade log-probability offsets use CAL **only**. AUDIT is evaluated once after selection. Historical use of the same dataset means this split cannot be called globally pristine. This is not Kaggle public/private truth.
 8. **Decision optimization:** choose between single classifiers and 2-model probability blends; tune a small set of offsets for **Macro F1** on CAL only, retaining a no-offset control. Refit the selected models on all labeled training data after reporting the audit.
 9. **Deliverables:** `submissions/submission.csv`, `model_bundle.joblib`, `selection.json` and `audit_metrics.json`.
 
-## Baseline and reporting integrity
+## Hasil eksperimen dan keputusan submission
 
-Previous user-reported leaderboard Macro F1 was approximately **0.605–0.60616**. An archived notebook reported **0.601198 local Macro F1**, versus a previously reported public score of **0.60606**. These scores refer to older experiments, **not to this repository's newly authored code**.
+**Pertahankan submission lama. Target 0,65 belum tercapai.** Skor public sekitar 0,605 berasal dari laporan pengguna dan belum diverifikasi untuk hash CSV tertentu. Skor private belum tersedia.
 
-**Target 0.65 is an aspiration, NOT a verified score.** No updated validation, public score or private score is asserted until train/test files are supplied and experiments actually run. Keep the former submission unless a replacement shows consistent, reproducible gains; test one Kaggle candidate at a time and record its exact version in the submission description.
+Delapan fit LightGBM dengan cross-fitted multiclass target encoding serta 32 kombinasi blend telah dijalankan dalam sesi sebelumnya. Semua gagal mengalahkan incumbent pada split seleksi yang sama. Penyesuaian keputusan per distrik memberi kenaikan sangat kecil, tetapi interval bootstrap mencakup nol. Detail dan batas reproduksi tersedia di [laporan eksperimen](reports/EXPERIMENT_RESULTS.md) dan [notebook hasil](notebooks/04_experiment_review.ipynb).
 
-| Experiment | CAL Macro F1 | Untouched AUDIT Macro F1 | Kaggle public | Status |
-|:--|:--|:--|:--|:--|
-| Historical solution | unknown | archived local 0.601198 | user reported ~0.605–0.60616 | historical |
-| New LightGBM / CatBoost ensemble | pending | pending | pending | run `python -m scripts.train --data data` |
+| Evaluasi | Incumbent | Kandidat terbaik | Keputusan |
+|:--|--:|--:|:--|
+| Selection: delapan fit + blend | 0.600083 | 0.599438 | Tolak penggantian |
+| Selection: offset distrik | 0.600083 | 0.600279 | Periksa pada fold historis |
+| Pooled 60.000 baris, tiga fold historis | 0.601198 | 0.601380 | Bukti kenaikan belum cukup |
+| Public Kaggle | ~0.605 menurut pengguna | Belum diunggah/diverifikasi | Jangan mengklaim 0.65 |
+
+Pipeline `scripts/train.py` adalah implementasi modular untuk eksperimen berikutnya; **angka di atas bukan hasil pipeline tersebut**. Notebook 01–03 perlu data dan pelatihan untuk menghasilkan output baru; notebook 04 menampilkan hasil terukur yang tercatat, tanpa melatih model kembali. Artefak model sementara eksperimen delapan fit tidak tersimpan setelah lingkungan sesi berganti; JSON hasil dipulihkan dari output eksekusi, bukan pengganti checkpoint.
 
 ## Interpretation and improvement hypotheses
 
@@ -104,7 +112,7 @@ Previous user-reported leaderboard Macro F1 was approximately **0.605–0.60616*
 
 ## Reproducibility limitations
 
-Original data are excluded per assignment requirements and possible Kaggle redistribution rules. Model files, leaderboard confirmation, training runtime and achieved scores are not included without running against the actual competition data. The older CSV is retained as a **historical baseline only**, not silently replaced.
+Original data are excluded per assignment requirements and possible Kaggle redistribution rules. Model checkpoints and original CSVs are not committed. The measured historical experiment results are included with explicit provenance; the updated main training pipeline has not been run on the full dataset. Keep the original submission supplied separately; this repository does not contain or replace it.
 
 ## Attribution and ethical use
 
@@ -113,3 +121,16 @@ Data source: Central Bureau of Statistics Nepal, post-earthquake survey as distr
 ## Leakage audit update (13 October 2026)
 
 From the original 533,465-row train and 228,629-row test ZIP: zero missing values; no explicit post-earthquake floor or height attributes; train/test building IDs are disjoint. The sample submission has almost uniform randomly-looking placeholder labels across the five grades, so its damage_grade **must never be used for training**. Among exact-feature duplicates, 10,695 groups (29,104 training rows, 5.46%) have conflicting grade labels, indicating non-identifiability from recorded predictors. Archived prior work explicitly recorded `selection_is_adaptive=True` and `pristine_independent_test=False`: repeated tuning on historical validation can bias estimates. Follow the fit/cal/audit protocol; OOF-encode target-based location statistics and do not reuse audit labels for model selection. See `reports/LEAKAGE_AUDIT.md`.
+
+## Pemetaan rubrik repository (50%)
+
+| Persyaratan | Bukti di repository |
+|:--|:--|
+| Tree structure | Struktur folder di atas; data, notebook, scripts, tests, reports terpisah |
+| Workflow analisis | Notebook 01 EDA → 02 pemodelan → 03 submission → 04 ulasan eksperimen |
+| Pipeline + ColumnTransformer | `build_feature_pipeline` di `scripts/preprocess.py`, digunakan untuk fit dan refit |
+| Docstring function/class | Seluruh fungsi dan class Python pada `scripts/` |
+| Cara penggunaan | Instalasi, perintah train/predict, dan format input/output pada README |
+| Laporan interpretasi | Bagian hasil, hipotesis, laporan eksperimen, confusion matrix dan F1 per kelas |
+
+Pemenuhan struktur tidak menjamin nilai penuh; penilaian akhir tetap oleh pengajar. Public dan private score menyumbang 15% dan 35% secara terpisah.

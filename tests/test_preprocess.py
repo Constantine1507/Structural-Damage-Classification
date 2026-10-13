@@ -1,6 +1,7 @@
 """Small deterministic tests for target parsing, transformers and submission contracts."""
 import numpy as np
 import pandas as pd
+import pytest
 from scripts.feature_engineering import SeismicFeatures
 from scripts.preprocess import parse_grades, build_submission, make_preprocessor
 
@@ -35,3 +36,25 @@ def test_submission(tmp_path):
     result = build_submission(sample, test, [1,5], tmp_path/"submission.csv")
     assert result.damage_grade.tolist() == [5,1]
     assert list(result) == ["building_id","damage_grade"]
+
+
+def test_assignment_numeric_default(tmp_path):
+    """Grade-string placeholders must not override the required integer schema."""
+    sample = pd.DataFrame({"building_id": ["002", "001"], "damage_grade": ["Grade 1", "Grade 2"]})
+    test = pd.DataFrame({"building_id": ["001", "002"]})
+    result = build_submission(sample, test, [2, 5], tmp_path / "numeric.csv")
+    assert result.damage_grade.tolist() == [5, 2]
+    assert result.building_id.tolist() == ["002", "001"]
+    with pytest.raises(ValueError, match="integer-valued"):
+        build_submission(sample, test, [1.9, 5], tmp_path / "invalid.csv")
+    with pytest.raises(ValueError, match="Sample IDs"):
+        build_submission(sample.iloc[[0, 0]], test, [2, 5], tmp_path / "duplicate.csv")
+
+
+def test_no_geography_ablation():
+    """The no-geography control excludes explicit geography as well as ID prefixes."""
+    frame = pd.DataFrame({"building_id": ["123456000001"], "district_id": [12],
+                          "vdcmun_id": [1234], "ward_id": [123456], "age_building": [5]})
+    transformed = SeismicFeatures(use_geo=False).fit_transform(frame)
+    assert not any(c in transformed for c in ("building_id", "district_id", "vdcmun_id", "ward_id"))
+    assert not any(c.startswith("id_prefix_") for c in transformed)

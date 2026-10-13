@@ -107,11 +107,18 @@ def build_feature_pipeline(X_reference, estimator, family="lgbm", use_geo=True):
                      ("columns", columns), ("model", estimator)])
 
 
-def build_submission(sample, test, predicted, output, label_style="auto"):
+def build_submission(sample, test, predicted, output, label_style="numeric"):
     """Align predictions by building_id; assert order, values and schema before saving."""
     if len(test) != len(predicted):
         raise ValueError("Prediction length differs from test")
-    lookup = pd.Series(np.asarray(predicted).astype(int), index=test.building_id.astype(str))
+    values = np.asarray(predicted)
+    if values.ndim != 1 or not np.isin(values, np.arange(1, 6)).all():
+        raise ValueError("Predictions must be integer-valued grades 1..5")
+    if (sample.building_id.isna().any() or not sample.building_id.is_unique
+            or len(sample) != len(test)
+            or set(sample.building_id.astype(str)) != set(test.building_id.astype(str))):
+        raise ValueError("Sample IDs must uniquely and exactly match test IDs")
+    lookup = pd.Series(values.astype(int), index=test.building_id.astype(str))
     if not lookup.index.is_unique:
         raise ValueError("Duplicate test IDs")
     result = pd.DataFrame({"building_id": sample.building_id.astype(str)})
