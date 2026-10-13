@@ -1,0 +1,205 @@
+{
+  "data_sha256": {
+    "train.csv": "231c9bf0430faa9c1d2281b4edbcd9ce0d7a863c6ff67042a8fbc992469d37bb",
+    "test.csv": "d732c3070b878ebc1346907d50e6a6c1a6a9db0eadf0790631b37c03d3ba6c5c"
+  },
+  "train_rows": 533465,
+  "test_rows": 228629,
+  "missing_train": 0,
+  "missing_test": 0,
+  "duplicate_train_ids": 0,
+  "duplicate_test_ids": 0,
+  "id_overlap": 0,
+  "post_eq_columns": [],
+  "test_geo_unseen": {
+    "district_id": 0,
+    "vdcmun_id": 0,
+    "ward_id": 0
+  },
+  "exact_profile_duplicate_rows_all": 56682,
+  "conflicting_profile_groups": 10695,
+  "conflicting_profile_rows": 29104,
+  "test_profile_seen_in_train_rows": 23781,
+  "test_prefix11_seen_in_train_rows": 19670,
+  "heldout_label_sentinel_tests": [
+    {
+      "builder": "compact_frame",
+      "rows": 2000,
+      "fit_rows": 1500,
+      "heldout_rows": 500,
+      "changing_all_heldout_labels_changes_features": false,
+      "columns": 76
+    },
+    {
+      "builder": "kernel_features",
+      "rows": 2000,
+      "fit_rows": 1500,
+      "heldout_rows": 500,
+      "changing_all_heldout_labels_changes_features": false,
+      "columns": 136
+    },
+    {
+      "builder": "physical_kernels",
+      "rows": 2000,
+      "fit_rows": 1500,
+      "heldout_rows": 500,
+      "changing_all_heldout_labels_changes_features": false,
+      "columns": 198
+    },
+    {
+      "builder": "pair_features",
+      "rows": 2000,
+      "fit_rows": 1500,
+      "heldout_rows": 500,
+      "changing_all_heldout_labels_changes_features": false,
+      "columns": 210
+    },
+    {
+      "builder": "hierarchical_profiles",
+      "rows": 2000,
+      "fit_rows": 1500,
+      "heldout_rows": 500,
+      "changing_all_heldout_labels_changes_features": false,
+      "columns": 168
+    },
+    {
+      "builder": "numeric_neighbours",
+      "rows": 2000,
+      "fit_rows": 1500,
+      "heldout_rows": 500,
+      "changing_all_heldout_labels_changes_features": false,
+      "columns": 56
+    }
+  ],
+  "adding_unlabelled_query_changes_context_training_rows": 4,
+  "original_compact_includes_full_numeric_id": true,
+  "changed_rows": 685,
+  "changed_fraction": 0.0029961203521862933,
+  "changed_transitions": [
+    {
+      "from": 2,
+      "to": 1,
+      "rows": 183
+    },
+    {
+      "from": 5,
+      "to": 4,
+      "rows": 157
+    },
+    {
+      "from": 3,
+      "to": 4,
+      "rows": 147
+    },
+    {
+      "from": 3,
+      "to": 2,
+      "rows": 80
+    },
+    {
+      "from": 2,
+      "to": 3,
+      "rows": 34
+    },
+    {
+      "from": 4,
+      "to": 5,
+      "rows": 17
+    },
+    {
+      "from": 3,
+      "to": 1,
+      "rows": 17
+    },
+    {
+      "from": 4,
+      "to": 3,
+      "rows": 13
+    },
+    {
+      "from": 2,
+      "to": 4,
+      "rows": 9
+    },
+    {
+      "from": 5,
+      "to": 3,
+      "rows": 8
+    },
+    {
+      "from": 3,
+      "to": 5,
+      "rows": 5
+    },
+    {
+      "from": 5,
+      "to": 1,
+      "rows": 4
+    },
+    {
+      "from": 2,
+      "to": 5,
+      "rows": 4
+    },
+    {
+      "from": 5,
+      "to": 2,
+      "rows": 3
+    },
+    {
+      "from": 4,
+      "to": 1,
+      "rows": 2
+    },
+    {
+      "from": 1,
+      "to": 2,
+      "rows": 1
+    },
+    {
+      "from": 4,
+      "to": 2,
+      "rows": 1
+    }
+  ],
+  "changed_by_ground_floor": {
+    "Mud": 271,
+    "Brick/Stone": 203,
+    "RC": 202,
+    "Timber": 9
+  },
+  "grade_count_delta": {
+    "1": 205,
+    "2": -145,
+    "3": -194,
+    "4": 280,
+    "5": -146
+  },
+  "user_reported_public": {
+    "submission10": 0.60627,
+    "candidate11": 0.60621,
+    "delta": -6e-05
+  },
+  "changed_floor_rates": {
+    "Mud": {
+      "all_test_rows": 185399,
+      "changed_rows": 271,
+      "fraction_changed": 0.001461712306970372
+    },
+    "Brick/Stone": {
+      "all_test_rows": 19829,
+      "changed_rows": 203,
+      "fraction_changed": 0.01023753088910182
+    },
+    "RC": {
+      "all_test_rows": 22003,
+      "changed_rows": 202,
+      "fraction_changed": 0.00918056628641549
+    },
+    "Timber": {
+      "all_test_rows": 1087,
+      "changed_rows": 9,
+      "fraction_changed": 0.00827966881324747
+    }
+  }
+}

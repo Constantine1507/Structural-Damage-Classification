@@ -1,5 +1,7 @@
 # Submission 10 dan kandidat berikutnya
 
+> Hasil terbaru dari pengguna: kandidat 011 mendapat public **0,60621**, di bawah submission 10 **0,60627**. Pernyataan belum ada skor di bawah merupakan riwayat sebelum update. Lihat [audit lanjutan](deep_audit/ANALYSIS_060621.md).
+
 **Acuan terbaru adalah `010_Constantine(10).csv`, public Macro F1 0,60627 berdasarkan laporan pengguna.** Private score belum diketahui; skor public belum diambil langsung dari leaderboard. Identitas ini mengacu pada CSV yang dikirim dalam percakapan, dengan asumsi hanya nama file yang berubah sebelum upload.
 
 ## Identitas file

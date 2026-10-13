@@ -25,9 +25,12 @@
       -0.0002651379543924581,
       0.00048191570499448995
     ],
-    "public_macro_f1": null,
+    "public_macro_f1": 0.60621,
     "private_macro_f1": null,
-    "promoted": false
+    "promoted": false,
+    "public_delta_vs_submission10": -6e-05,
+    "score_source": "User report on 2026-10-13 at 19:54 WIB; assumes the last delivered candidate was submitted unchanged",
+    "status": "did not beat submission 10 on reported public leaderboard"
   },
   "stage1": {
     "configurations": 45,
@@ -59,7 +62,7 @@
         "alpha": 0.1,
         "selection_f1": 0.6002702723040331,
         "confirmation_f1": 0.6012434480564248,
-        "delta": 0.000055919429394091225,
+        "delta": 5.5919429394091225e-05,
         "bootstrap95": [
           -0.0001534802667177093,
           0.00024245329576015324

@@ -12,7 +12,7 @@ Prediksi tingkat kerusakan bangunan akibat gempa Nepal 2015 menggunakan data sur
 |---|---:|---|
 | **Best public leaderboard** | **0,60627** | Submission ke-10, `010_Constantine(10).csv` |
 | Posisi pada tangkapan layar 13 Oktober 2026 | **1 dari 25 peserta** | Posisi sementara, bukan hasil private |
-| Submission terakhir yang terlihat pada tangkapan layar | 0,60621 | Tidak menggantikan best score; belum dipasangkan dengan hash CSV tertentu |
+| Submission terakhir yang terlihat pada tangkapan layar | 0,60621 | Tidak menggantikan best score; dikaitkan dengan kandidat 011 menurut laporan pengguna dalam percakapan |
 | Private leaderboard | **Belum diketahui** | Baru tersedia setelah penutupan kompetisi |
 | Target pribadi | 0,65 | **Belum tercapai** |
 
@@ -118,7 +118,7 @@ Jika ingin memeriksa format dan perbedaan dua prediksi yang tersedia, jalankan `
 
 Pada evaluasi historis 60.000 baris, F1 kelas 2 sekitar **0,473** dan kelas 3 sekitar **0,491**, sementara kelas 5 sekitar **0,761**. Perbedaan tersebut menjelaskan mengapa model dengan prediksi kelas mayoritas yang baik belum tentu unggul pada Macro F1. Kelas bertetangga sering tertukar sehingga pendekatan ordinal layak diuji, tetapi **belum bisa dinyatakan lebih bagus** tanpa eksperimen lanjutan.
 
-Ada juga risiko menghafal lokasi. Identitas bangunan lengkap dikeluarkan dari fitur; jika prefix ID dipakai, ia diperiksa sebagai indikator wilayah kasar. Koreksi yang bergantung pada target, termasuk target encoding atau offset kelompok, harus dipelajari hanya dari bagian training/calibration yang sesuai. Detailnya ada di laporan audit.
+Ada juga risiko menghafal lokasi. Pipeline modular baru mengeluarkan ID lengkap. Namun audit notebook asli menemukan `id_numeric` dalam fitur ensemble historis; penggunaan ID dan konteks transduktif dibahas terpisah pada audit lanjutan. Koreksi yang bergantung pada target, termasuk target encoding atau offset kelompok, harus dipelajari hanya dari bagian training/calibration yang sesuai. Detailnya ada di laporan audit.
 
 ## Hal yang sengaja saya pisahkan
 
@@ -132,3 +132,7 @@ Ada juga risiko menghafal lokasi. Identitas bangunan lengkap dikeluarkan dari fi
 Tugas ini menilai **public leaderboard (15%)**, **private leaderboard (35%)**, serta **struktur/workflow repo, Pipeline + ColumnTransformer, docstring, petunjuk penggunaan, dan interpretasi (50%)**. Penilaian akhir tetap mengikuti dosen dan skor private, bukan asumsi dari ranking sementara.
 
 *Catatan pembaruan: 13 Oktober 2026. Semua angka hasil Kaggle dibedakan dari hasil validasi lokal. Tidak ada neural network dalam pendekatan proyek ini.*
+
+## Audit mendalam setelah kandidat mendapat 0,60621
+
+[Laporan terbaru](reports/deep_audit/ANALYSIS_060621.md) memuat pemeriksaan ulang data, enam uji perubahan label held-out yang lulus, analisis 685 perpindahan kelas, temuan konteks train+test serta ID numerik pada notebook asli, dan rencana validasi lanjutan. Kandidat 011 mendapat public **0,60621 menurut pengguna**, di bawah acuan **0,60627**. Tidak ditemukan bukti label test langsung pada jalur fitur yang diuji; ini bukan sertifikasi seluruh ensemble bebas leakage. Laporan dan script tersedia di `reports/deep_audit/`.

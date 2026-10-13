@@ -1,5 +1,7 @@
 # Leakage and reproducibility audit — 13 October 2026
 
+> Pembaruan: baca [audit mendalam setelah skor 0,60621](deep_audit/ANALYSIS_060621.md). Notebook asli memakai konteks transduktif dan ID numerik lengkap; keduanya perlu dibedakan dari pipeline modular baru.
+
 ## Dataset and direct leakage checks
 
 - Source: user-uploaded original five-class ZIP. Train: **533,465 × 17**. Test: **228,629 × 16**.
