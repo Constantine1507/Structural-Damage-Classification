@@ -16,4 +16,4 @@ venv/
 .env
 .DS_Store
 *.zip
-*.joblib
+*.jobli
