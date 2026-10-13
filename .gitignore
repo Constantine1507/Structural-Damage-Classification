@@ -17,3 +17,7 @@ venv/
 .DS_Store
 *.zip
 *.joblib
+
+# Curated final predictions; source data remain excluded
+!submissions/010_Constantine(10).csv
+!submissions/011_Constantine_candidate.csv

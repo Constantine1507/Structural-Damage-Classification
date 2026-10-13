@@ -30,7 +30,8 @@ Structural-Damage-Classification/
 │   ├── 01_eda.ipynb
 │   ├── 02_modeling.ipynb
 │   ├── 03_submission.ipynb
-│   └── 04_experiment_review.ipynb
+│   ├── 04_experiment_review.ipynb
+│   └── 05_submission10_and_refinement.ipynb
 ├── scripts/
 │   ├── __init__.py
 │   ├── feature_engineering.py
@@ -41,7 +42,7 @@ Structural-Damage-Classification/
 ├── tests/
 │   └── test_preprocess.py
 ├── models/                    # reserved for saved model checkpoints
-├── submissions/               # generated CSV + audit JSON + joblib (ignored by Git)
+├── submissions/               # curated final CSVs; other run outputs ignored
 └── reports/
     ├── EXPERIMENT_RESULTS.md
     ├── experiment_history.json
@@ -86,20 +87,18 @@ python -m scripts.predict --data data --model submissions/model_bundle.joblib --
 8. **Decision optimization:** choose between single classifiers and 2-model probability blends; tune a small set of offsets for **Macro F1** on CAL only, retaining a no-offset control. Refit the selected models on all labeled training data after reporting the audit.
 9. **Deliverables:** `submissions/submission.csv`, `model_bundle.joblib`, `selection.json` and `audit_metrics.json`.
 
-## Hasil eksperimen dan keputusan submission
+## Submission aktif: ke-10, public 0,60627
 
-**Pertahankan submission lama. Target 0,65 belum tercapai.** Skor public sekitar 0,605 berasal dari laporan pengguna dan belum diverifikasi untuk hash CSV tertentu. Skor private belum tersedia.
+**`010_Constantine(10).csv` menjadi acuan terbaru**, dengan public Macro F1 **0,60627 berdasarkan laporan pengguna** pada 13 Oktober 2026. Private score belum diketahui. Target 0,65 belum tercapai.
 
-Delapan fit LightGBM dengan cross-fitted multiclass target encoding serta 32 kombinasi blend telah dijalankan dalam sesi sebelumnya. Semua gagal mengalahkan incumbent pada split seleksi yang sama. Penyesuaian keputusan per distrik memberi kenaikan sangat kecil, tetapi interval bootstrap mencakup nol. Detail dan batas reproduksi tersedia di [laporan eksperimen](reports/EXPERIMENT_RESULTS.md) dan [notebook hasil](notebooks/04_experiment_review.ipynb).
+- [Submission ke-10](submissions/010_Constantine(10).csv)
+- [Kandidat berikutnya: 011_Constantine_candidate.csv](submissions/011_Constantine_candidate.csv)
+- [Notebook pemeriksaan dan hasil](notebooks/05_submission10_and_refinement.ipynb)
+- [Laporan lengkap](reports/SUBMISSION_10_AND_NEXT.md)
 
-| Evaluasi | Incumbent | Kandidat terbaik | Keputusan |
-|:--|--:|--:|:--|
-| Selection: delapan fit + blend | 0.600083 | 0.599438 | Tolak penggantian |
-| Selection: offset distrik | 0.600083 | 0.600279 | Periksa pada fold historis |
-| Pooled 60.000 baris, tiga fold historis | 0.601198 | 0.601380 | Bukti kenaikan belum cukup |
-| Public Kaggle | ~0.605 menurut pengguna | Belum diunggah/diverifikasi | Jangan mengklaim 0.65 |
+Dua putaran lanjutan selesai: **45 konfigurasi koreksi** dengan tiga finalis diperiksa pada tiga fold, serta **empat model tambahan / 12 blend**. Kandidat berikutnya mengubah **685 prediksi**, dengan local historical confirmation **0,601289** versus **0,601188** untuk resep submission 10. Interval delta mencakup nol; belum ada skor Kaggle kandidat baru.
 
-Pipeline `scripts/train.py` adalah implementasi modular untuk eksperimen berikutnya; **angka di atas bukan hasil pipeline tersebut**. Notebook 01–03 perlu data dan pelatihan untuk menghasilkan output baru; notebook 04 menampilkan hasil terukur yang tercatat, tanpa melatih model kembali. Artefak model sementara eksperimen delapan fit tidak tersimpan setelah lingkungan sesi berganti; JSON hasil dipulihkan dari output eksekusi, bukan pengganti checkpoint.
+Skor 0,601380 pada riwayat terdahulu berasal dari varian yang berbeda dan **bukan skor submission 10**. `scripts/train.py` adalah workflow model modular terpisah; public 0,60627 tidak berasal dari pipeline itu. File CSV final dan JSON hasil dipertahankan, tetapi checkpoint lengkap putaran baru tidak tersedia setelah pergantian lingkungan sementara. Notebook 05 memeriksa hasil yang tersimpan, bukan melatih ulang model.
 
 ## Interpretation and improvement hypotheses
 
@@ -112,7 +111,7 @@ Pipeline `scripts/train.py` adalah implementasi modular untuk eksperimen berikut
 
 ## Reproducibility limitations
 
-Original data are excluded per assignment requirements and possible Kaggle redistribution rules. Model checkpoints and original CSVs are not committed. The measured historical experiment results are included with explicit provenance; the updated main training pipeline has not been run on the full dataset. Keep the original submission supplied separately; this repository does not contain or replace it.
+Original data are excluded per assignment requirements and possible Kaggle redistribution rules. Model checkpoints and original train/test CSVs are not committed. The measured historical experiment results are included with explicit provenance; the updated main training pipeline has not been run on the full dataset. Submission ke-10 dan kandidat berikutnya kini tersimpan sebagai CSV prediksi final; data mentah tetap dikecualikan.
 
 ## Attribution and ethical use
 

@@ -1,0 +1,143 @@
+{
+  "submission10": {
+    "filename": "010_Constantine(10).csv",
+    "submission_number": 10,
+    "public_macro_f1": 0.60627,
+    "score_source": "User report, 2026-10-13; not independently fetched",
+    "private_macro_f1": null,
+    "sha256": "2764f5f59a3924b982a72584edb4facdd8aeabde16519a8ce0e04e45975d0767",
+    "rows": 228629,
+    "selection_macro_f1": 0.6001154954862524,
+    "confirmation_macro_f1": 0.6011875286270307,
+    "recipe": "frozen v7 + district offset x 0.1",
+    "status": "best public score reported by user"
+  },
+  "candidate11": {
+    "filename": "011_Constantine_candidate.csv",
+    "sha256": "3b3f560d466b103f22b0dfddad50e15a84c39725d38b5fcb4bb60f429812e907",
+    "rows": 228629,
+    "changed_vs_submission10": 685,
+    "recipe": "submission 10 + ground_floor_type offset x 0.35",
+    "selection_macro_f1": 0.6002676456483892,
+    "confirmation_macro_f1": 0.6012892715454559,
+    "delta": 0.0001017429184251295,
+    "bootstrap95": [
+      -0.0002651379543924581,
+      0.00048191570499448995
+    ],
+    "public_macro_f1": null,
+    "private_macro_f1": null,
+    "promoted": false
+  },
+  "stage1": {
+    "configurations": 45,
+    "groups": 9,
+    "shrinkages": [
+      0.05,
+      0.1,
+      0.2,
+      0.35,
+      0.5
+    ],
+    "fit_rows": 42677,
+    "selection_rows": 37343,
+    "minimum_group_rows": 100,
+    "finalists": [
+      {
+        "group": "age_bin",
+        "alpha": 0.5,
+        "selection_f1": 0.6003598472275828,
+        "confirmation_f1": 0.6010336757024993,
+        "delta": -0.00015385292453140575,
+        "bootstrap95": [
+          -0.000823756035040693,
+          0.0005003642374182158
+        ]
+      },
+      {
+        "group": "top_pair",
+        "alpha": 0.1,
+        "selection_f1": 0.6002702723040331,
+        "confirmation_f1": 0.6012434480564248,
+        "delta": 0.000055919429394091225,
+        "bootstrap95": [
+          -0.0001534802667177093,
+          0.00024245329576015324
+        ]
+      },
+      {
+        "group": "ground_floor_type",
+        "alpha": 0.35,
+        "selection_f1": 0.6002676456483892,
+        "confirmation_f1": 0.6012892715454559,
+        "delta": 0.0001017429184251295,
+        "bootstrap95": [
+          -0.0002651379543924581,
+          0.00048191570499448995
+        ]
+      }
+    ],
+    "folds": [
+      {
+        "fold": 0,
+        "submission10": 0.6030977490361541,
+        "age_bin": 0.6031577070873401,
+        "top_pair": 0.6032512463077235,
+        "ground_floor_type": 0.6036233951641754
+      },
+      {
+        "fold": 1,
+        "submission10": 0.602791355228659,
+        "age_bin": 0.6025696888544798,
+        "top_pair": 0.6029618776347971,
+        "ground_floor_type": 0.6027619863047439
+      },
+      {
+        "fold": 2,
+        "submission10": 0.5975126790124994,
+        "age_bin": 0.5972317899964484,
+        "top_pair": 0.5973617453602798,
+        "ground_floor_type": 0.5973540268292314
+      }
+    ]
+  },
+  "stage2": {
+    "fits": 4,
+    "blends": 12,
+    "best_selection_f1": 0.6000755899851156,
+    "best_recipe": "LogisticRegression C=0.01, blend=0.05",
+    "all_failed_to_beat_submission10": true,
+    "best_by_model": [
+      {
+        "kind": "logistic",
+        "C": 0.01,
+        "f1": 0.6000755899851156
+      },
+      {
+        "kind": "logistic",
+        "C": 0.1,
+        "f1": 0.5996002783750366
+      },
+      {
+        "kind": "lightgbm",
+        "leaves": 7,
+        "f1": 0.5998729752155961
+      },
+      {
+        "kind": "lightgbm",
+        "leaves": 15,
+        "f1": 0.5998580127460817
+      }
+    ]
+  },
+  "selection_is_adaptive": true,
+  "pristine_independent_test": false,
+  "target_065_achieved": false,
+  "bootstrap": {
+    "replicates": 1000,
+    "seed": 20261013,
+    "groups": "building_id prefix 6",
+    "conditional_on_selected_recipe": true
+  },
+  "provenance": "Measurements recovered from completed execution outputs. CSV blobs were uploaded before temporary workspace reset. Exact CSVs are retained. Temporary per-row validation predictions and newly fitted correction/model artifacts are unavailable; this report does not substitute for those checkpoints."
+}
