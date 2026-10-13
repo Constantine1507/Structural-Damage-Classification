@@ -6,7 +6,7 @@
 
 ## Problem and scientific context
 
-The 25 April 2015 Gorkha earthquake (Mw 7.8) caused widespread structural damage across Nepal. We predict **damage_grade** (Grade 1–5) from pre-event building characteristics and survey fields. The metric is **Macro F1**, i.e., the arithmetic mean of five per-class F1 scores; it does not collapse to accuracy.
+The 25 April 2015 Gorkha earthquake (Mw 7.8) caused widespread structural damage across Nepal. I predict **damage_grade** (Grade 1–5) from pre-event building characteristics and survey fields. The metric is **Macro F1**, i.e., the arithmetic mean of five per-class F1 scores; it does not collapse to accuracy.
 
 This is **not** the frequently shared 3-grade DrivenData Richter's Predictor task. Do not mix those labels, features, or leaderboard scores with this five-grade competition.
 
