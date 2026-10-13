@@ -107,7 +107,7 @@ def build_feature_pipeline(X_reference, estimator, family="lgbm", use_geo=True):
                      ("columns", columns), ("model", estimator)])
 
 
-def build_submission(sample, test, predicted, output, label_style="numeric"):
+def build_submission(sample, test, predicted, output, label_style="auto"):
     """Align predictions by building_id; assert order, values and schema before saving."""
     if len(test) != len(predicted):
         raise ValueError("Prediction length differs from test")
@@ -119,10 +119,13 @@ def build_submission(sample, test, predicted, output, label_style="numeric"):
     if result.damage_grade.isna().any() or not result.damage_grade.isin(range(1, 6)).all():
         raise ValueError("Submission ID mismatch or invalid grade")
     result["damage_grade"] = result.damage_grade.astype(int)
+    if label_style == "auto":
+        examples = sample["damage_grade"].dropna().astype(str).str.strip()
+        label_style = "grade" if len(examples) and examples.str.fullmatch(r"Grade [1-5]").all() else "numeric"
     if label_style == "grade":
         result["damage_grade"] = "Grade " + result.damage_grade.astype(str)
     elif label_style != "numeric":
-        raise ValueError("label_style must be 'numeric' or 'grade'")
+        raise ValueError("label_style must be 'auto', 'numeric' or 'grade'")
     output = Path(output)
     output.parent.mkdir(parents=True, exist_ok=True)
     result.to_csv(output, index=False)

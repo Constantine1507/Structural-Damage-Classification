@@ -68,7 +68,7 @@ python -m scripts.train --data data              # full non-neural ensemble expe
 python -m scripts.predict --data data --model submissions/model_bundle.joblib --output submissions/submission.csv
 ```
 
-3. Submit `submissions/submission.csv` via the competition's **Submit Predictions** tab. The CSV columns are exactly `building_id,damage_grade`, in the order of `sample_submission.csv`, without an index. **The supplied assignment requests numeric Grades 1–5.** Some historical notebooks use `Grade 1` strings; inspect Kaggle's current sample/validator before uploading. If its actual contract requires strings, use `--label-style grade` at inference instead. Do not upload both formats blindly.
+3. Submit `submissions/submission.csv` via the competition's **Submit Predictions** tab. The CSV columns are exactly `building_id,damage_grade`, in the order of `sample_submission.csv`, without an index. **Important source discrepancy:** the assignment describes integer 1–5 predictions, but the actual uploaded `sample_submission.csv` stores labels as `Grade 1`–`Grade 5`. The repository now defaults to matching the exact official sample style (`--label-style auto`). Verify the submission validator if Kaggle rejects either format. Never learn from sample submission's placeholder grade values.
 
 ## Methodology / analytical workflow
 
@@ -109,3 +109,7 @@ Original data are excluded per assignment requirements and possible Kaggle redis
 ## Attribution and ethical use
 
 Data source: Central Bureau of Statistics Nepal, post-earthquake survey as distributed by the competition organizer. Predictions aid retrospective data-science evaluation; they are not an engineering safety inspection.
+
+## Leakage audit update (13 October 2026)
+
+From the original 533,465-row train and 228,629-row test ZIP: zero missing values; no explicit post-earthquake floor or height attributes; train/test building IDs are disjoint. The sample submission has almost uniform randomly-looking placeholder labels across the five grades, so its damage_grade **must never be used for training**. Among exact-feature duplicates, 10,695 groups (29,104 training rows, 5.46%) have conflicting grade labels, indicating non-identifiability from recorded predictors. Archived prior work explicitly recorded `selection_is_adaptive=True` and `pristine_independent_test=False`: repeated tuning on historical validation can bias estimates. Follow the fit/cal/audit protocol; OOF-encode target-based location statistics and do not reuse audit labels for model selection. See `reports/LEAKAGE_AUDIT.md`.

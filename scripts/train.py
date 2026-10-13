@@ -130,7 +130,7 @@ def train(args):
         p_test += weight * ordered_probabilities(pipe, test_df)
         models[name] = pipe
     predictions = decide(p_test, offsets)
-    build_submission(sample, test_df, predictions, out/"submission.csv", "numeric")
+    build_submission(sample, test_df, predictions, out/"submission.csv", "auto")
     joblib.dump({"models":models, "weights":weights, "offsets":offsets.tolist(),
                  "classes":CLASSES.tolist()}, out/"model_bundle.joblib")
     print(f"Saved: {out/'submission.csv'} | Models: {out/'model_bundle.joblib'}")
