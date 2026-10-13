@@ -49,7 +49,7 @@ Structural-Damage-Classification/
 ├── README.md
 ├── requirements.txt
 ├── .gitignore
-├── data/                       # taruh CSV/ZIP kompetisi sendiri (tidak dilacak Git)
+├── data/                       # salinan ZIP kompetisi masih ada; CSV lain diabaikan Git
 ├── notebooks/
 │   ├── 01_eda.ipynb
 │   ├── 02_modeling.ipynb
@@ -94,20 +94,20 @@ python -m pip install -r requirements.txt
 python -m pytest -q
 ```
 
-Unduh dataset dari kompetisi Kaggle setelah menerima rules. Letakkan `train.csv`, `test.csv`, `sample_submission.csv` dalam `data/`, **atau** satu ZIP unduhan kompetisi di dalam `data/`. Data mentah tidak disertakan dalam repo.
+Dataset ZIP kompetisi `data/structural-damage-classification.zip` masih tersimpan di repository ini (sekitar 17 MB); ini perlu ditinjau lagi jika aturan redistribusi kompetisi melarangnya. Alternatif yang disarankan: unduh dataset dari Kaggle setelah menerima rules, lalu letakkan `train.csv`, `test.csv`, dan `sample_submission.csv` dalam `data/`. Dataset CSV diabaikan Git. Jika menggunakan ZIP yang tersimpan, berikan **path ZIP-nya langsung** pada argumen `--data` (bukan hanya folder `data/`).
 
 ```bash
 # Ringkasan hasil historis dan pemeriksaan dua CSV tanpa melatih ulang
 python -m scripts.inspect_results
 
 # Pemeriksaan alur cepat: tidak mewakili model akhir
-python -m scripts.train --data data --output outputs/smoke --quick
+python -m scripts.train --data data/structural-damage-classification.zip --output outputs/smoke --quick
 
 # Eksperimen modular penuh; memerlukan CPU/RAM dan waktu lebih banyak
-python -m scripts.train --data data --output outputs/full
+python -m scripts.train --data data/structural-damage-classification.zip --output outputs/full
 
 # Prediksi ulang dari bundle yang benar-benar dihasilkan oleh perintah sebelumnya
-python -m scripts.predict --data data --model outputs/full/model_bundle.joblib --output outputs/full/submission.csv
+python -m scripts.predict --data data/structural-damage-classification.zip --model outputs/full/model_bundle.joblib --output outputs/full/submission.csv
 ```
 
 Notebook 01–03 mendemonstrasikan alur EDA–modeling–submission untuk **model modular baru** dan memerlukan dataset. Notebook 04–06 meninjau **hasil eksperimen yang telah dicatat**; notebook tersebut tidak diam-diam melatih ulang model lama.
