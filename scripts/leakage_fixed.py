@@ -15,6 +15,7 @@ class SafeFeatures(BaseEstimator, TransformerMixin):
     fitted reference statistics. ID ordering is a hypothesis, not coordinates.
     """
     def __init__(self, neighbors=True, seed=20261014):
+        """Set train-only neighborhood behavior and random seed."""
         self.neighbors=neighbors
         self.seed=seed
 

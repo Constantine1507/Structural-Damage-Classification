@@ -35,7 +35,7 @@ Pada 60.000 baris sama, v7 mengganti keputusan 985 baris relatif terhadap v6. Pe
 ## Uji eksekusi
 
 - Notebook audit dan baseline mandiri lokal (`Run All`) telah berhasil dieksekusi tanpa error pada **mode smoke** menggunakan data kompetisi asli.
-- Baseline LightGBM dengan `Pipeline` dan `ColumnTransformer`: 9.600 baris fit, 2.400 baris validasi; **Macro-F1 0,450334**; hasil prediksi sebelum dan sesudah memuat `joblib` identik. Nilai smoke test ini **bukan** skor model final submission 010.
+- Uji baseline lokal historis yang tercatat di laporan ini memakai LightGBM `Pipeline`/`ColumnTransformer` pada 9.600 baris fit dan 2.400 validasi: **Macro-F1 0,450334**, dengan replay `joblib` identik. **Run CI notebook 09 yang terpisah** memperoleh **0,404740** memakai konfigurasi baseline berbeda. Keduanya adalah smoke test, bukan skor final submission 010.
 - Percobaan mode full terhenti saat proses kernel pada lingkungan eksekusi saat ini. Hasil full baseline tidak diklaim berhasil; status tersebut terpisah dari hasil validasi historis.
 - Dataset sudah dibatasi hash train `231c9bf0430faa9c1d2281b4edbcd9ce0d7a863c6ff67042a8fbc992469d37bb` dan test `d732c3070b878ebc1346907d50e6a6c1a6a9db0eadf0790631b37c03d3ba6c5c`.
 
@@ -57,6 +57,6 @@ python -m scripts.audit_submission10 \
   --checkpoint data/Structural_Damage_NonNeural_Rebuild_Checkpoint.zip
 ```
 
-Notebook utama: [`notebooks/08_submission10_verified.ipynb`](../notebooks/08_submission10_verified.ipynb). File checkpoint lama tidak diunggah karena ukurannya dan sifatnya sebagai artefak eksperimen eksternal. Tanpa file ini, semua pemeriksaan submission tetap berjalan dan evaluasi historis dengan label asli dilewati, tidak direkayasa.
+Notebook sumber [`notebooks/08_submission10_verified.ipynb`](../notebooks/08_submission10_verified.ipynb) tidak menyimpan output eksekusi pada branch `main`. File checkpoint historis tidak tersedia di repository karena ukurannya; jalankan notebook dengan checkpoint asli untuk mengulang audit historis. Tanpa file ini, semua pemeriksaan submission tetap berjalan dan evaluasi historis dengan label asli dilewati, tidak direkayasa.
 
 **Catatan interpretasi:** confusion matrix di atas mengukur validasi historis pada data train, **bukan** label test Kaggle. Tidak ada neural network yang digunakan.

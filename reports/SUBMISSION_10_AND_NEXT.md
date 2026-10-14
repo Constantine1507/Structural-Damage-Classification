@@ -1,8 +1,8 @@
 # Submission 10 dan kandidat berikutnya
 
-> Hasil terbaru dari pengguna: kandidat 011 mendapat public **0,60621**, di bawah submission 10 **0,60627**. Pernyataan belum ada skor di bawah merupakan riwayat sebelum update. Lihat [audit lanjutan](deep_audit/ANALYSIS_060621.md).
+> Pembaruan: skor leaderboard **0,60621** tercatat sesudah hasil terbaik **0,60627**, tetapi hubungan skor tersebut dengan hash CSV kandidat 011 belum dibuktikan dari arsip unggahan. Lihat [audit lanjutan](deep_audit/ANALYSIS_060621.md).
 
-**Acuan terbaru adalah `010_Constantine(10).csv`, public Macro F1 0,60627 berdasarkan laporan pengguna.** Private score belum diketahui; skor public belum diambil langsung dari leaderboard. Identitas ini mengacu pada CSV yang dikirim dalam percakapan, dengan asumsi hanya nama file yang berubah sebelum upload.
+**Acuan terbaik yang dipertahankan adalah `010_Constantine(10).csv` (public Macro F1 tercatat 0,60627).** Angka public didokumentasikan dari tangkapan layar/laporan Kaggle, bukan diambil dari API. Belum ada bukti unggahan yang menghubungkan skor dengan hash CSV secara independen; private score belum diketahui.
 
 ## Identitas file
 
@@ -11,7 +11,7 @@
 | `010_Constantine(10).csv` | `2764f5f59a3924b982a72584edb4facdd8aeabde16519a8ce0e04e45975d0767` | Acuan public terbaik yang dilaporkan |
 | `011_Constantine_candidate.csv` | `3b3f560d466b103f22b0dfddad50e15a84c39725d38b5fcb4bb60f429812e907` | Kandidat eksperimen, belum memiliki skor Kaggle |
 
-Keduanya berisi 228.629 baris, ID unik dan kelas integer 1–5, header `building_id,damage_grade`. Kandidat berikutnya berbeda pada **685 baris** dari submission 10. File ke-10 berbeda pada 439 baris dari incumbent sebelumnya.
+Keduanya berisi 228.629 baris, ID unik dan kelas integer 1–5, header `building_id,damage_grade`. Kandidat berikutnya berbeda pada **685 baris** dari submission 10. File ke-10 berbeda pada 439 baris dari replay native model v7; penyebabnya belum terverifikasi.
 
 ## Dua putaran yang benar-benar dijalankan
 
@@ -32,7 +32,7 @@ Putaran kedua melatih **empat model tambahan** pada CAL: LogisticRegression C=0,
 
 ## Interpretasi dan keputusan
 
-**Submission 10 tetap acuan public terbaik.** Kandidat `011_Constantine_candidate.csv` menggunakan koreksi jenis lantai dasar × 0,35 di atas resep submission 10. File ini siap diuji oleh pengguna, tetapi belum diunggah ke Kaggle oleh asisten dan tidak dijamin mengalahkan 0,60627.
+**Submission 10 tetap acuan public terbaik.** Kandidat `011_Constantine_candidate.csv` menggunakan koreksi jenis lantai dasar × 0,35 di atas resep submission 10. Bukti unggahan Kaggle yang mengikat hash kandidat 011 ke skor public belum tersedia. Uji lokal tidak cukup untuk menyimpulkan bahwa kandidat mengungguli 0,60627.
 
 Pemilihan akhir juga melihat confirmation sehingga bersifat adaptif. Historical metadata sudah menyatakan data ini bukan test independen yang baru. Bootstrap bersyarat pada resep terpilih dan tidak mengoreksi seluruh pencarian. Jangan menyebut angka 0,601289 sebagai skor Kaggle.
 
@@ -40,8 +40,8 @@ Pemilihan akhir juga melihat confirmation sehingga bersifat adaptif. Historical 
 
 ## Reproduksi dan keterbatasan artefak
 
-Replay submission 10 dari cache sebelumnya menghasilkan CSV byte-identical. Kedua CSV final berhasil diunggah sebagai objek Git sebelum lingkungan sementara berganti, dan kini disimpan dalam repository. Ringkasan numerik ini dipulihkan dari output eksekusi yang selesai.
+Replay berbasis cache probabilitas historis pernah menghasilkan CSV identik. Ini verifikasi preservasi hasil dari cache, bukan bukti pelatihan ulang dari data mentah. File 010, 011, dan ringkasan numerik eksperimen tersimpan dalam repository.
 
-Artefak baru berupa offset terlatih, model tambahan dan prediksi validasi per baris dari putaran ini tidak bertahan setelah pergantian lingkungan. Karena itu repository ini menyimpan **CSV final dan bukti hasil**, belum checkpoint lengkap yang mereproduksi pelatihan putaran ini. Notebook 05 memeriksa kedua CSV dan merangkum JSON hasil; ia tidak melatih ulang model. Pipeline `scripts/train.py` yang sudah ada adalah workflow terpisah dan tidak boleh diberi klaim public score 0,60627.
+Sebagian offset terlatih, checkpoint model tambahan, dan prediksi validasi per baris dari eksperimen historis tidak tersedia dalam repository. Karena itu repository ini menyimpan **CSV final dan bukti hasil**, belum checkpoint lengkap yang mereproduksi pelatihan putaran ini. Notebook 05 memeriksa kedua CSV dan merangkum JSON hasil; ia tidak melatih ulang model. Pipeline `scripts/train.py` yang sudah ada adalah workflow terpisah dan tidak boleh diberi klaim public score 0,60627.
 
-Data train/test mentah tidak dikomit. Dua CSV prediksi final diizinkan secara eksplisit dalam `.gitignore`. Pengujian kode pada sesi pengerjaan sebelumnya: enam pengujian lulus; seluruh fungsi/class pada source saat itu memiliki docstring.
+Arsip ZIP kompetisi (~17 MB) berada di `data/structural-damage-classification.zip`; CSV mentah yang diekstrak tidak dilacak Git. Redistribusi arsip tetap perlu mengikuti ketentuan kompetisi. File 010 dan 011 tersedia di `submissions/`. Hasil pemeriksaan otomatis dapat dilihat pada [run CI](https://github.com/Constantine1507/Structural-Damage-Classification/actions/workflows/reproducibility.yml) dan [indeks bukti](EVIDENCE_INDEX.md).

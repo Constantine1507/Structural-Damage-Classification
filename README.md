@@ -12,7 +12,9 @@ Prediksi tingkat kerusakan bangunan akibat gempa Nepal 2015 menggunakan data sur
 
 **Submission final:** [`010_Constantine(10).csv`](submissions/010_Constantine(10).csv). SHA-256 file `2764f5f59a3924b982a72584edb4facdd8aeabde16519a8ce0e04e45975d0767`. CSV ini tidak ditimpa oleh eksperimen baru.
 
-Dari clone baru, jalankan `python -m pip install -r requirements.txt nbclient nbconvert ipykernel`, `python -m pytest -q`, lalu `jupyter nbconvert --execute --to notebook notebooks/09_end_to_end_verified.ipynb --output 09_executed.ipynb --output-dir artifacts`. Notebook memeriksa file submission, checksum data, model baseline non-neural yang dilatih dan dimuat ulang, serta menghasilkan `artifacts/reproduction_evidence/verified_evidence.json`. CI mengunggah notebook hasil eksekusi sebagai artifact; [riwayat workflow](https://github.com/Constantine1507/Structural-Damage-Classification/actions/workflows/reproducibility.yml) menjadi sumber status run.
+Dari clone baru, jalankan `python -m pip install -r requirements.txt nbclient nbconvert ipykernel`, `python -m pytest -q`, lalu `python -m jupyter nbconvert --execute --to notebook notebooks/09_end_to_end_verified.ipynb --output 09_executed.ipynb --output-dir artifacts`. Pemeriksaan meliputi checksum data, skema submission, serta fit–save–reload model non-neural baru. Ringkasan eksekusi dibuat di `artifacts/reproduction_evidence/verified_evidence.json`.
+
+**Status notebook:** notebook 09 dalam branch `main` berisi kode sumber **tanpa output sel yang disimpan**. [GitHub Actions run #3 yang lulus pada 14 Oktober 2026](https://github.com/Constantine1507/Structural-Damage-Classification/actions/runs/38499691437) menyimpan notebook **hasil eksekusi** beserta JSON verifikasi sebagai *workflow artifact*, bukan sebagai perubahan file notebook sumber. Notebook 01–03 dan 05–08 juga belum menyimpan output, sedangkan notebook 04 menyimpan output ringkasan historis (bukan training baru).
 
 **Batas reproduksi:** laporan v6/v7 menggunakan label train historis yang pernah diamati selama seleksi model. Arsip 454 MB dibutuhkan untuk audit historis lengkap dan tidak tersedia di clone biasa. CSV final 010 sudah bisa diverifikasi byte-identical, tetapi training ulang ensemble historis persis 010 belum terbukti; 439 prediksi berbeda terhadap replay native v7. Tanpa ground truth Kaggle test, confusion matrix test maupun skor private tidak dapat dihitung.
 
@@ -24,7 +26,7 @@ Alur notebook: [01 EDA](notebooks/01_eda.ipynb) → [02 Modeling](notebooks/02_m
 |---|---:|---|
 | **Best public leaderboard** | **0,60627** | Submission ke-10, `010_Constantine(10).csv` |
 | Posisi pada tangkapan layar 13 Oktober 2026 | **1 dari 25 peserta** | Posisi sementara, bukan hasil private |
-| Submission terakhir yang terlihat pada tangkapan layar | 0,60621 
+| Skor pengiriman lain dalam tangkapan layar | 0,60621 | Keterkaitan dengan hash kandidat 011 belum diverifikasi |
 | Private leaderboard | **Belum diketahui** | Baru tersedia setelah penutupan kompetisi |
 
 Saya memilih tetap memakai **submission ke-10** sebagai acuan. Ada kandidat lanjutan pada `submissions/011_Constantine_candidate.csv`, tetapi kenaikan pada pengecekan lokal sangat kecil dan belum cukup kuat untuk menyimpulkan bahwa hasil Kaggle akan lebih baik. Skor 0,60627 adalah *skor publik yang dilaporkan dan diperlihatkan lewat leaderboard*, bukan keluaran dari menjalankan ulang `scripts/train.py`.
@@ -41,6 +43,7 @@ Bacaan utama:
 - [Hasil akhir dan batas kesimpulan](reports/HASIL_AKHIR.md)
 - [Audit kebocoran data](reports/LEAKAGE_AUDIT.md)
 - [Rincian eksperimen historis](reports/EXPERIMENT_RESULTS.md) dan [submission 10–11](reports/SUBMISSION_10_AND_NEXT.md)
+- [Indeks bukti eksperimen, output notebook, dan batas reproduksi](reports/EVIDENCE_INDEX.md)
 
 ## Gambaran proses
 
@@ -144,11 +147,11 @@ Tugas ini menilai **public leaderboard (15%)**, **private leaderboard (35%)**, s
 
 ## Audit mendalam setelah kandidat mendapat 0,60621
 
-[Laporan terbaru](reports/deep_audit/ANALYSIS_060621.md) memuat pemeriksaan ulang data, enam uji perubahan label held-out yang lulus, analisis 685 perpindahan kelas, temuan konteks train+test serta ID numerik pada notebook asli, dan rencana validasi lanjutan. Kandidat 011 mendapat public **0,60621**, di bawah acuan **0,60627**. Tidak ditemukan bukti label test langsung pada jalur fitur yang diuji; ini bukan sertifikasi seluruh ensemble bebas leakage. Laporan dan script tersedia di `reports/deep_audit/`.
+[Laporan terbaru](reports/deep_audit/ANALYSIS_060621.md) memuat pemeriksaan ulang data, enam uji perubahan label held-out yang lulus, analisis 685 perpindahan kelas, temuan konteks train+test serta ID numerik pada notebook asli, dan rencana validasi lanjutan. Skor public **0,60621** dicatat sesudah hasil terbaik **0,60627**, tetapi bukti yang menghubungkan skor tersebut dengan hash CSV kandidat 011 belum tersedia. Tidak ditemukan bukti label test langsung pada jalur fitur yang diuji; ini bukan sertifikasi seluruh ensemble bebas leakage. Laporan dan script tersedia di `reports/deep_audit/`.
 
 ## Pembaruan reproduksibilitas & confusion matrix (14 Oktober 2026)
 
-- Notebook **mandiri** [07_standalone_reproduction.ipynb](notebooks/07_standalone_reproduction.ipynb) berisi seluruh definisi model/preprocessing (tanpa impor `scripts/`), visualisasi confusion, full refit, save/replay model dengan `joblib`, dan verifikasi CSV byte-identical. Input ZIP kompetisi; `QUICK=False` untuk full.
+- Notebook [07_standalone_reproduction.ipynb](notebooks/07_standalone_reproduction.ipynb) menyediakan kode mandiri preprocessing/model, confusion matrix, full refit, dan replay `joblib`. Notebook sumber belum menyimpan output eksekusi; opsi `QUICK=False` menyediakan jalur full run, **bukan** bukti bahwa full run berhasil dijalankan.
 - [Validasi historis yang diaudit](reports/HISTORICAL_VALIDATION_20261014.md) memuat matrix 60.000 baris, Grade 1–5, F1 per kelas dan keterbatasan metode. [Visualisasi SVG](reports/figures/historical_v7_confusion.svg) dan [angka JSON](reports/historical_counts_20261014.json).
 - Script verifikasi: `python -m scripts.historical_checkpoint_audit --data data/structural-damage-classification.zip --checkpoint /path/to/Structural_Damage_NonNeural_Rebuild_Checkpoint.zip`. Checkpoint besar dari sesi riset lama harus tersedia secara terpisah.
 - **Jangan samakan** replay kandidat *baru* dengan submission 010 yang terbaik di Kaggle (public 0,60627). Seluruh state ensemble historis belum tersedia untuk rekonstruksi byte-identical 010. Tidak ada label test tersembunyi untuk confusion matrix Kaggle, dan validasi historis sudah terkena adaptivity.
@@ -162,10 +165,10 @@ Notebook mandiri: [`notebooks/08_submission10_verified.ipynb`](notebooks/08_subm
 Pemisahan hasil: CSV final dapat diverifikasi byte-identical, evaluasi historis v6/v7 dapat direkalkulasi dari checkpoint, dan notebook baseline sudah lulus `Run All` mode smoke. Reproduksi **training historis final 010** yang byte-identical dari data mentah masih belum terbukti; hasil mode full belum lulus eksekusi. Skor Kaggle private dan confusion matrix pada hidden test tidak tersedia. Tidak memakai neural network.
 
 
-## Verified end-to-end execution (14 October 2026)
+## Bukti eksekusi end-to-end (14 Oktober 2026)
 
-[Notebook 09 — executed evidence](notebooks/09_end_to_end_verified.ipynb) includes **saved cell outputs** from a real run on the original competition dataset and historical checkpoint: SHA/ID checks passed, historical v6/v7 Macro F1 0.600795670/0.601198136, and a fresh non-neural pipeline trained on 9,600 examples, tested on 2,400, with a successful joblib prediction replay (smoke Macro F1 0.404740). The latter is **not** the public 0.60627 ensemble. CI re-executes it against the original dataset on GitHub Actions and uploads an executed notebook artifact (external 454 MB archive is optional and skipped in CI).
+[Notebook sumber 09](notebooks/09_end_to_end_verified.ipynb) dieksekusi pada [GitHub Actions run #3](https://github.com/Constantine1507/Structural-Damage-Classification/actions/runs/38499691437). Output sel ada di **workflow artifact**, bukan di file notebook pada branch `main`. Pemeriksaan hash dan ID lulus; pipeline LightGBM non-neural baru dilatih pada 9.600 baris dan divalidasi pada 2.400 baris dengan **Macro F1 smoke 0,404740**. Model yang disimpan lalu dimuat ulang menghasilkan prediksi identik. Uji ini **bukan** model yang memperoleh public **0,60627**.
 
-**Provenance boundary:** native v7 replay and final submission 010 still differ on **439 rows**. Byte-identical full retraining of the original best ensemble is **not established**. Do not confuse integrity of a preserved CSV with reproducibility of its complete modeling recipe.
+CI berjalan **tanpa** checkpoint historis 454 MB, sehingga audit v6/v7 dilewati pada run tersebut. Angka historis v6 **0,600795670** dan v7 **0,601198136** berasal dari audit lain menggunakan arsip checkpoint. Replay native v7 juga masih berbeda **439 prediksi** dari submission 010, sehingga reproduksi pelatihan lengkap submission terbaik belum terbukti.
 
-Read [the checkpoint-to-submission audit](reports/PROVENANCE_010.md) and [machine-readable execution results](reports/verified_evidence_20261014.json) for exact hashes, test conditions, limits and replay instructions.
+Rincian sumber dan batas kesimpulan terdapat pada [laporan provenance](reports/PROVENANCE_010.md), [catatan historis](reports/verified_evidence_20261014.json), serta [indeks bukti](reports/EVIDENCE_INDEX.md).

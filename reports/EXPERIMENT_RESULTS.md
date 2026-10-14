@@ -6,9 +6,9 @@
 
 ## Sumber dan batas bukti
 
-Eksperimen di bawah benar-benar dijalankan pada sesi sebelumnya. Ringkasan numeriknya dipulihkan dari output eksekusi ke `experiment_history.json`; file model baru dan prediksi per baris sementara tidak bertahan ketika lingkungan sesi berganti. Karena itu tabel ini merupakan **catatan hasil**, bukan checkpoint yang dapat langsung dipakai untuk inference. Notebook 04 menghitung ulang ringkasan dan metrik confusion matrix dari catatan tersebut, bukan mengulang pelatihan. Jangan mengatribusikan skor ini ke `scripts/train.py`, yang menggunakan desain pipeline berbeda.
+Ringkasan hasil historis di bawah didokumentasikan di `experiment_history.json` dari catatan output eksperimen. Sejumlah checkpoint model dan prediksi per baris tidak tersimpan, sehingga reproduksi penuh hasil lama belum dapat diverifikasi dari repository ini. Karena itu tabel ini merupakan **catatan hasil**, bukan checkpoint yang dapat langsung dipakai untuk inference. Notebook 04 menghitung ulang ringkasan dan metrik confusion matrix dari catatan tersebut, bukan mengulang pelatihan. Jangan mengatribusikan skor ini ke `scripts/train.py`, yang menggunakan desain pipeline berbeda.
 
-Data asli: train 533.465 baris, test 228.629 baris, lima kelas. Hash input dan incumbent tercatat di JSON. CSV incumbent memiliki 228.629 ID unik, dua kolom, kelas integer 1–5, tanpa missing. Replay notebook lama dari cache probabilitas menghasilkan CSV dengan hash identik; **itu replay cache, bukan fresh model training**. Skor public sekitar 0,605 dilaporkan pengguna dan tidak dapat dipasangkan ke hash aktif tanpa bukti leaderboard.
+Data asli: train 533.465 baris, test 228.629 baris, lima kelas. Hash input dan incumbent tercatat di JSON. CSV incumbent memiliki 228.629 ID unik, dua kolom, kelas integer 1–5, tanpa missing. Replay notebook lama dari cache probabilitas menghasilkan CSV dengan hash identik; **itu replay cache, bukan fresh model training**. Skor public sekitar 0,605 berasal dari catatan leaderboard historis dan belum terhubung ke hash CSV tertentu melalui bukti unggahan yang tersimpan.
 
 ## Protokol delapan fit
 

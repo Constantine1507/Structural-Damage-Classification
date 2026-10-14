@@ -2,7 +2,7 @@
 
 ## Keputusan saat ini
 
-Submission 10 (0,60627) tetap menjadi acuan public terbaik yang dilaporkan. Kandidat 011 memperoleh **0,60621**, selisih **−0,00006** atau −0,006 poin persentase. Kedua skor adalah laporan pengguna; private score tidak tersedia. Hasil baru dikaitkan dengan CSV kandidat yang terakhir dikirim, dengan asumsi file diunggah tanpa perubahan isi.
+Submission 10 (0,60627) tetap menjadi acuan public terbaik yang dilaporkan. Kandidat 011 memperoleh **0,60621**, selisih **−0,00006** atau −0,006 poin persentase. Kedua skor dicatat dari laporan leaderboard, belum diverifikasi lewat API; private score tidak tersedia. Keterkaitan hash CSV kandidat dengan skor pengiriman belum dibuktikan oleh arsip unggahan sehingga tetap bersifat sementara.
 
 Penurunan tersebut **tidak membuktikan kebocoran data**, tetapi juga tidak membuktikan pipeline bersih. Temuan utama audit ini adalah penggunaan validation berulang untuk pemilihan, konteks transduktif pada notebook asli, dan ketergantungan pada identifier lokasi. Belum ditemukan bukti penggunaan label test dalam pembentukan fitur yang diperiksa. Ada bagian provenance yang tidak dapat diaudit ulang karena checkpoint eksperimen baru tidak tersimpan.
 
@@ -40,7 +40,7 @@ Kandidat dipilih setelah 45 konfigurasi koreksi; tiga finalis kemudian dibanding
 |:--|--:|--:|--:|
 | SEL | 0.6001154955 | 0.6002676456 | +0.0001521502 |
 | Confirmation gabungan | 0.6011875286 | 0.6012892715 | +0.0001017429 |
-| Public, laporan pengguna | 0.60627 | 0.60621 | −0.00006 |
+| Public, dicatat dari leaderboard | 0.60627 | 0.60621 | −0.00006 |
 
 Delta confirmation per fold: **+0,000525646; −0,000029369; −0,000158652**. Perbaikan terutama ditopang satu fold. Interval bootstrap conditional 95% [−0,000265138; +0,000481916] mencakup nol dan tidak mengoreksi pencarian banyak kandidat. Hasil Kaggle yang berbalik arah konsisten dengan keuntungan lokal yang lemah; penyebab spesifik belum dapat ditetapkan dari dua angka agregat.
 

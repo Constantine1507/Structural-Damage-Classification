@@ -4,7 +4,7 @@ Dokumen ini adalah rangkuman percobaan yang benar-benar tercatat sepanjang penge
 
 ## Perkembangan skor publik
 
-Dari catatan percakapan selama proses ini, public score yang pernah saya laporkan bergerak melalui **0,58970**, **0,60625**, **0,60503**, **0,60606**, **0,60616**, hingga **0,60627**. Urutan tersebut adalah *riwayat angka yang dilaporkan*, bukan rekonstruksi pasti nomor submission per angka. Terakhir, leaderboard memperlihatkan submission terbaru **0,60621**, sementara **best tetap 0,60627**.
+Dari catatan skor yang dihimpun selama eksperimen, angka public leaderboard yang pernah dilaporkan bergerak melalui **0,58970**, **0,60625**, **0,60503**, **0,60606**, **0,60616**, hingga **0,60627**. Urutan tersebut adalah *riwayat angka yang dilaporkan*, bukan rekonstruksi pasti nomor submission per angka. Terakhir, leaderboard memperlihatkan submission terbaru **0,60621**, sementara **best tetap 0,60627**.
 
 Alasan skor tidak selalu naik: model baru atau koreksi keputusan bisa memperbaiki sebagian kelas tetapi merusak kelas lainnya. Macro F1 menghitung rata-rata lima kelas, bukan jumlah prediksi benar keseluruhan.
 

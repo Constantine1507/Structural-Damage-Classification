@@ -26,7 +26,7 @@ train.csv + test.csv + sample_submission.csv (ZIP kompetisi)
       submissions/010_Constantine(10).csv [final yang dibekukan]
 ```
 
-**Penting:** Panah ke CSV 010 adalah hubungan audit/perbandingan, **bukan** klaim bahwa native v7 saja membuat file akhir. Notebook mengonversi label arsip 0–4 menjadi 1–5 sebelum dibandingkan dengan train asli. Publik 0,60627 adalah hasil Kaggle **yang dilaporkan pengguna**, bukan dihitung dari hidden label atau pengujian smoke.
+**Penting:** Panah ke CSV 010 adalah hubungan audit/perbandingan, **bukan** klaim bahwa native v7 saja membuat file akhir. Notebook mengonversi label arsip 0–4 menjadi 1–5 sebelum dibandingkan dengan train asli. Public **0,60627** adalah skor Kaggle yang tercatat dari laporan/tangkapan layar leaderboard, bukan hasil perhitungan hidden label atau uji smoke. Tautan unggahan yang menghubungkan skor ke hash file belum diarsipkan.
 
 ## Identitas input
 
@@ -47,7 +47,7 @@ jupyter nbconvert --to notebook --execute notebooks/09_end_to_end_verified.ipynb
 
 Dataset kompetisi dipakai dari `data/structural-damage-classification.zip`, dan submission asli dari `submissions/010_Constantine(10).csv`. Arsip 454 MB dapat diletakkan di `data/Structural_Damage_NonNeural_Rebuild_Checkpoint.zip`, atau menggunakan environment variable `DAMAGE_CHECKPOINT_ZIP`. Jika arsip tidak tersedia, hanya audit v6/v7 yang **SKIPPED**; verifikasi submission dan smoke run tetap dilakukan.
 
-GitHub Actions menjalankan notebook tanpa checkpoint eksternal, menyimpan notebook **hasil eksekusi sebagai workflow artifact** serta menjalankan pengujian repo. Notebook yang telah dieksekusi dan disimpan di repository dibuat dengan arsip asli lengkap pada 14 Oktober 2026; hasil log tetap merupakan bukti satu lingkungan, bukan janji seluruh mesin menghasilkan floating point identik. Paket, perangkat, random seed, versi, dan artefak akhir harus dicatat untuk eksperimen selanjutnya.
+[GitHub Actions run #3](https://github.com/Constantine1507/Structural-Damage-Classification/actions/runs/38499691437) berhasil menjalankan unit test, audit CSV, dan notebook 09 tanpa checkpoint historis eksternal. **Hasil eksekusi** tersimpan dalam workflow artifact; notebook sumber di branch `main` tidak menyimpan output sel. Run CI membuktikan smoke Macro F1 **0,40473982** dan replay model baru, **bukan** reproduksi skor public **0,60627**. Angka historis v6/v7 di atas memerlukan checkpoint eksternal dan berasal dari audit berbeda.
 
 Bukti smoke bukan reproduksi model kompetisi terbaik. Interpretasi confusion matrix ada di `reports/HISTORICAL_VALIDATION_20261014.md`.
 
