@@ -16,7 +16,8 @@ File [`012_Constantine_leakage_fixed.csv`](../submissions/012_Constantine_leakag
 | Macro F1 kandidat 012 pada audit tersebut | **0,602359** | Evaluasi sesudah pemilihan kandidat dikunci |
 | Selisih terhadap baseline lokal | **+0,012170** | Bukan peningkatan terhadap skor Kaggle 010 |
 | Prediksi 012 yang berbeda dari 010 | **20.831** | Perubahan label, belum tentu perbaikan |
-| Public/private Kaggle untuk 012 | **Belum diketahui** | Tidak ada skor yang bisa diklaim |
+| Public Kaggle untuk 012 | **0,60449** | Skor unggahan dilaporkan pada 14 Oktober 2026; belum ada bukti unggahan yang terhubung dengan hash CSV |
+| Private Kaggle untuk 012 | **Belum diketahui** | Hasil private belum tersedia |
 
 Interval bootstrap berpasangan untuk selisih kandidat terhadap baseline pada audit 012 adalah sekitar **[+0,008584; +0,015711]**. Interval ini tidak menghitung dampak seluruh iterasi historis yang pernah dilakukan. Skor validasi 012 juga tidak dapat dibandingkan langsung dengan public score 010, karena evaluasinya memakai data dan prosedur berbeda.
 
@@ -32,4 +33,4 @@ Pada [GitHub Actions run #5](https://github.com/Constantine1507/Structural-Damag
 
 ## Catatan penutup
 
-Pada versi ini saya membedakan **submission terbaik berdasarkan leaderboard (010)** dari **eksperimen lanjutan yang lebih lengkap catatan validasinya (012)**. Dokumentasi 012 tidak saya jadikan dasar untuk mengganti 010. Sampai ada skor Kaggle 012 yang benar-benar terverifikasi, keputusan akhirnya tidak berubah.
+Pada versi ini saya membedakan **submission terbaik berdasarkan leaderboard (010)** dari **eksperimen lanjutan yang lebih lengkap catatan validasinya (012)**. Public Macro F1 012 yang dilaporkan pada 14 Oktober 2026 adalah **0,60449**, lebih rendah **0,00178** dari 010 (**0,60627**). Karena itu saya tetap menggunakan 010 sebagai hasil terbaik dan menyimpan 012 sebagai catatan eksperimen; angka public tersebut belum diverifikasi secara independen melalui arsip unggahan yang terhubung dengan hash CSV.

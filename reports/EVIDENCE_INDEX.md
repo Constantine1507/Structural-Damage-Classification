@@ -16,9 +16,10 @@ Dokumen ini mencatat apa yang benar-benar tersedia di repository. Skor Kaggle, v
 
 | Klaim | Bukti | Batasnya |
 |---|---|---|
-| Kandidat 012 dibuat melalui run baru dan bukan salinan 010 | [`012_Constantine_leakage_fixed.csv`](../submissions/012_Constantine_leakage_fixed.csv), [`fixed_run/refit.log`](fixed_run/refit.log), [`fixed_run/metrics.json`](fixed_run/metrics.json) | Skor Kaggle kandidat belum diketahui |
+| Kandidat 012 dibuat melalui run baru dan bukan salinan 010 | [`012_Constantine_leakage_fixed.csv`](../submissions/012_Constantine_leakage_fixed.csv), [`fixed_run/refit.log`](fixed_run/refit.log), [`fixed_run/metrics.json`](fixed_run/metrics.json) | Skor public 012 dilaporkan 0,60449; private belum diketahui |
 | Split FIT/CAL/SEL/AUDIT dan konfigurasi dibekukan | [`fixed_run/protocol.json`](fixed_run/protocol.json), [`fixed_run/frozen_selection.json`](fixed_run/frozen_selection.json) | Holdout audit tidak digunakan untuk seleksi pada run itu, tetapi bukan test historis yang benar-benar baru |
 | Macro F1 audit **0,602359** versus baseline **0,590189** | [`fixed_run/metrics.json`](fixed_run/metrics.json), [`fixed_run/ANALYSIS.md`](fixed_run/ANALYSIS.md) | Perbandingan sesama eksperimen 012, bukan perbandingan skor publik dengan 010 |
+| Public Kaggle 012 dilaporkan **0,60449** pada 14 Oktober 2026 | [`fixed_run/metrics.json`](fixed_run/metrics.json), [`fixed_run/ANALYSIS.md`](fixed_run/ANALYSIS.md) | Berdasarkan laporan unggahan peserta, belum diverifikasi melalui Kaggle API atau arsip unggahan yang terikat hash CSV; masih di bawah 010 (0,60627) |
 | Full refit dan replay bundle menghasilkan CSV identik | [`fixed_run/refit.log`](fixed_run/refit.log), [`fixed_run/bundle_verification.json`](fixed_run/bundle_verification.json) | Bundle disimpan privat; pelatihan ulang pada clone bersih belum diverifikasi independen |
 | Notebook 10 menampilkan output analisis | [`10_leakage_fixed_experiment.ipynb`](../notebooks/10_leakage_fixed_experiment.ipynb) | Training di notebook dinonaktifkan secara default; log training berasal dari proses CLI terpisah |
 | Diagnostik leakage, ketergantungan wilayah, dan feature importance | [`fixed_run/ANALYSIS.md`](fixed_run/ANALYSIS.md), [`fixed_run/geographic_stress.json`](fixed_run/geographic_stress.json) | Diagnostik bukan jaminan bebas leakage atau prediksi untuk skor private |
@@ -51,4 +52,4 @@ python -m scripts.run_fixed_experiment --data data --output artifacts/fixed_run
 
 Jika full refit terputus setelah pemilihan resep tersimpan, gunakan `python -m scripts.resume_fixed_refit --data data --output artifacts/fixed_run --threads 8`. Jalur ini membutuhkan CPU, memori, dan waktu lebih besar daripada smoke test. Paket yang dipakai saat eksperimen tercatat di [`fixed_run/requirements-run.txt`](fixed_run/requirements-run.txt).
 
-**Skor private leaderboard, confusion matrix hidden test, dan hubungan resmi submission 012 dengan Kaggle tetap belum tersedia.** Jangan mengganti kekosongan tersebut dengan nilai dari validasi lokal.
+**Public Kaggle 012 dilaporkan 0,60449, sedangkan skor private, confusion matrix hidden test, dan bukti unggahan yang mengikat skor 012 ke hash CSV masih belum tersedia.** Jangan mengganti kekosongan tersebut dengan nilai dari validasi lokal.

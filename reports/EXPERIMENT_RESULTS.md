@@ -2,7 +2,7 @@
 
 ## Keputusan
 
-**Submission lama belum layak diganti berdasarkan eksperimen ini.** Target Macro F1 0,65 belum tercapai. Nilai local confirmation terbaik 0,601380 masih berjarak 0,048620 dari target; ini bukan estimasi selisih public leaderboard. Tidak ada skor public/private baru yang diverifikasi.
+**Submission lama belum layak diganti berdasarkan eksperimen ini.** Target Macro F1 0,65 belum tercapai. Nilai local confirmation terbaik 0,601380 masih berjarak 0,048620 dari target; ini bukan estimasi selisih public leaderboard. Bagian ini mencatat eksperimen historis sebelum 012. Public Macro F1 012 kemudian dilaporkan **0,60449** pada 14 Oktober 2026, di bawah skor terbaik 010 **0,60627**. Skor private belum diketahui, dan bukti unggahan yang mengaitkan skor 012 dengan hash CSV belum disimpan.
 
 ## Sumber dan batas bukti
 

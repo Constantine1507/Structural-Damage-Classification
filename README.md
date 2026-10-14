@@ -74,7 +74,7 @@ Saya juga tidak menganggap seluruh risiko leakage sudah hilang hanya karena bebe
 | Replay submission 012 dari bundle model yang disimpan | Dilaporkan **byte-identical** untuk seluruh test pada lingkungan eksperimen |
 | Bundle terlatih 012 tersedia di repository public | **Tidak**; bundle disimpan terpisah dan tidak dilacak Git |
 | Training 012 dari clone bersih di CI, lalu membandingkan CSV baru | **Belum diuji**; CI tidak menjalankan full training 012 |
-| Skor Kaggle public/private untuk 012 | **Belum ada bukti** |
+| Skor Kaggle untuk 012 | **Public 0,60449** (dilaporkan 14 Oktober 2026); private belum diketahui. Bukti unggahan yang mengaitkan skor dengan hash CSV belum diarsipkan |
 
 [![Reproducibility checks](https://github.com/Constantine1507/Structural-Damage-Classification/actions/workflows/reproducibility.yml/badge.svg)](https://github.com/Constantine1507/Structural-Damage-Classification/actions/workflows/reproducibility.yml)
 
