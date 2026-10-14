@@ -23,7 +23,7 @@ def main():
         importance+=weight*v/max(v.sum(),1e-12)
     cached=np.load(out/'test_probabilities.npy')[idx]
     np.testing.assert_allclose(p,cached,atol=1e-7,rtol=1e-6)
-    csv=pd.read_csv(out/'012_Constantine_leakage_fixed.csv',dtype={'building_id':str})
+    csv=pd.read_csv(out/'010_Constantine(12).csv',dtype={'building_id':str})
     assert np.array_equal(decide(p,bundle['offsets']),csv.damage_grade.to_numpy()[idx])
     result={'sample_rows':len(idx),'reloaded_pipeline_probabilities_match_cache':True,'max_absolute_difference':float(np.abs(p-cached).max()),'reloaded_pipeline_labels_match_csv':True,'classes_checked':[1,2,3,4,5]}
     (out/'bundle_verification.json').write_text(json.dumps(result,indent=2))

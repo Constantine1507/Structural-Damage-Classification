@@ -107,7 +107,7 @@ def main():
         else:
             m=CatBoostClassifier(iterations=rounds[name],depth=8,learning_rate=.05,loss_function='MultiClass',l2_leaf_reg=8,thread_count=4,random_seed=seed,allow_writing_files=False,verbose=250);m.fit(A,y)
         ptest+=w*m.predict_proba(T);models[name]=m
-    outcsv=out/'012_Constantine_leakage_fixed.csv';result=build_submission(sample,test,decide(ptest,winner['offsets']),outcsv,'numeric');np.save(out/'test_probabilities.npy',ptest.astype('float32'))
+    outcsv=out/'010_Constantine(12).csv';result=build_submission(sample,test,decide(ptest,winner['offsets']),outcsv,'numeric');np.save(out/'test_probabilities.npy',ptest.astype('float32'))
     joblib.dump({'features':features,'columns':ct,'models':models,'weights':winner['weights'],'offsets':winner['offsets'],'classes':[1,2,3,4,5]},out/'model_bundle.joblib',compress=3)
     prior=pd.read_csv('submissions/010_Constantine(10).csv',dtype={'building_id':str});assert result.building_id.equals(prior.building_id)
     report['changed_vs_submission10']=int((result.damage_grade!=prior.damage_grade).sum());report['submission_sha256']=hashlib.sha256(outcsv.read_bytes()).hexdigest();report['test_class_counts']=result.damage_grade.value_counts().sort_index().to_dict()

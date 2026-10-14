@@ -56,5 +56,5 @@ def test_notebook_sources_use_zip_input():
             assert "ZipFile" in code
             assert "sample_submission.csv" in code
             assert "010_Constantine(10).csv" in code
-            assert "012_Constantine_leakage_fixed.csv" in code
+            assert "010_Constantine(12).csv" in code
             assert "artifacts/notebook02_modular" not in code
