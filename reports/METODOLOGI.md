@@ -50,3 +50,14 @@ Dari audit fitur identik (selain ID dan label), **29.104 baris training atau 5,4
 Saya mempertahankan submission terbaik ketika kandidat baru hanya meningkat tipis pada confirmation dan interval bootstrap selisihnya masih memuat nol. Untuk kandidat submission 11, perbedaan lokal terhadap submission 10 adalah sekitar **+0,000102** Macro F1 pada pooled confirmation. Interval 95% yang tercatat **[-0,000265; +0,000482]**, sehingga peningkatan belum meyakinkan. Selain itu pemilihan kandidat bersifat adaptif, yang tidak seluruhnya ditangani oleh bootstrap.
 
 **Batas reproduksi:** source code modular tersedia dan dapat dieksekusi dengan data kompetisi. Namun checkpoint historis yang membuat skor publik 0,60627 tidak tersedia lengkap, sehingga notebook baru tidak mengklaim membangun ulang model terbaik itu dari nol.
+
+## 7. Keputusan akhir: submission 010 dan eksperimen 012
+
+Pada tahap pengumpulan, saya memisahkan hasil terbaik menurut leaderboard dari eksperimen perbaikan yang baru selesai:
+
+- **010** (`submissions/010_Constantine(10).csv`) tetap menjadi submission utama. Public Macro F1 **0,60627** berasal dari catatan leaderboard; training ensemble historisnya belum berhasil direproduksi persis dari data mentah.
+- **012** (`submissions/012_Constantine_leakage_fixed.csv`) adalah percobaan lanjutan menggunakan `SafeFeatures`, target encoding dan label tetangga yang di-cross-fit, serta partisi FIT/CAL/SEL/AUDIT yang terpisah. Model pemenang 25% LightGBM + 75% CatBoost memperoleh Macro F1 lokal **0,602359** pada AUDIT. Skor Kaggle 012 belum diketahui.
+
+Audit 012 memakai 32.009 baris, dengan baseline LightGBM **0,590189** pada baris yang sama. Selisih lokal **+0,012170** tidak dapat digunakan untuk menyimpulkan 012 mengalahkan public score 010. Prediksi final 012 dilaporkan cocok byte demi byte dengan replay dari bundle model yang tersimpan pada lingkungan eksperimen; bundle tersebut tidak dipublikasikan di repository.
+
+Untuk 012, kondisi model dan lingkungan eksekusi tercatat dalam [`fixed_run/ANALYSIS.md`](fixed_run/ANALYSIS.md), [`fixed_run/protocol.json`](fixed_run/protocol.json), [`fixed_run/metrics.json`](fixed_run/metrics.json), dan [`fixed_run/refit.log`](fixed_run/refit.log). Riwayat tuning pada dataset yang sama tetap menjadi batas dalam membaca skor audit. Sampai ada skor Kaggle baru yang terverifikasi, saya mempertahankan 010 sebagai hasil utama.

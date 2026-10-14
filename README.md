@@ -1,207 +1,166 @@
 # Structural Damage Classification — Gempa Nepal 2015
 
-**Tugas 1 Supervised Machine Learning, Sains Data ITS · 010_Constantine**
+**Tugas 1 Supervised Machine Learning · Sains Data ITS · 010_Constantine**
 
-Prediksi tingkat kerusakan bangunan akibat gempa Nepal 2015 menggunakan data survei bangunan, dengan lima label `damage_grade` (1 sampai 5). Metrik kompetisi adalah **Macro F1**, bukan accuracy. Proyek ini dikerjakan tanpa neural network, sesuai ketentuan tugas.
+Proyek ini memprediksi tingkat kerusakan bangunan akibat gempa Nepal 2015 ke dalam lima kelas, dari Grade 1 sampai Grade 5. Saya menggunakan model untuk data tabular, terutama LightGBM dan CatBoost. Tidak ada neural network yang digunakan.
 
-[Kompetisi Kaggle](https://www.kaggle.com/t/a9196b92680b4492aeb06aeaee94f654) · [Instruksi tugas](https://docs.google.com/document/d/1e8SbPqX3BX6_hsmawrtFu9kn80WotSfbORxYNg6cNBE/edit)
+[Kompetisi Kaggle](https://www.kaggle.com/t/a9196b92680b4492aeb06aeaee94f654) · [Ketentuan tugas](https://docs.google.com/document/d/1e8SbPqX3BX6_hsmawrtFu9kn80WotSfbORxYNg6cNBE/edit) · [Hasil akhir](reports/HASIL_AKHIR.md)
 
-## Status verifikasi submission 010
+## Hasil utama: submission 010
+
+**Submission yang saya pertahankan sebagai hasil terbaik adalah [`010_Constantine(10).csv`](submissions/010_Constantine(10).csv).** Public Macro F1 yang tercatat untuk submission ke-10 adalah **0,60627**. Pada tangkapan layar leaderboard tanggal 13 Oktober 2026, posisinya sementara **1 dari 25 peserta**. Angka tersebut berasal dari catatan/tangkapan layar Kaggle, bukan dari menghitung label test yang tersembunyi. Bukti unggahan yang menghubungkan skor publik dengan hash CSV belum tersimpan di repository.
+
+| Berkas | Peran | Hasil yang bisa dilaporkan | Keputusan |
+|---|---|---|---|
+| [`010_Constantine(10).csv`](submissions/010_Constantine(10).csv) | **Submission utama** | Public Macro F1 **0,60627** (catatan leaderboard) | Tetap digunakan sebagai best public |
+| [`011_Constantine_candidate.csv`](submissions/011_Constantine_candidate.csv) | Arsip kandidat sebelumnya | Skor pengiriman 0,60621 pernah dilaporkan; hubungan dengan hash berkas 011 belum terverifikasi | Bukan pengganti 010 |
+| [`012_Constantine_leakage_fixed.csv`](submissions/012_Constantine_leakage_fixed.csv) | **Eksperimen lanjutan** dengan pemisahan evaluasi lebih jelas | Macro F1 **0,602359** pada audit lokal; skor Kaggle **belum diketahui** | Dicatat sebagai kandidat, bukan best public |
+
+Skor audit lokal 012 tidak dibandingkan langsung dengan public leaderboard 010: data evaluasi dan proses pemilihan modelnya berbeda. Private leaderboard juga belum tersedia dalam bukti proyek. Karena itu saya tidak menyebut 012 lebih unggul di Kaggle.
+
+## Data, metrik, dan masalah yang ditemui
+
+Dataset berisi **533.465 baris train** dan **228.629 baris test**. Targetnya lima kelas kerusakan yang tidak seimbang. Penilaian menggunakan **Macro F1**, yaitu rata-rata F1 untuk setiap kelas, bukan accuracy. Model bisa cukup baik di kelas yang dominan tetapi tetap kehilangan banyak poin ketika Grade 2 dan Grade 3 saling tertukar.
+
+Saya memulai dari pemeriksaan skema, distribusi kelas, karakteristik bangunan sebelum gempa, dan risiko kebocoran data. Fitur yang diuji meliputi usia, luas, jumlah lantai, tinggi, material bangunan, rasio fisik, serta penanda wilayah. Potongan `building_id` hanya digunakan sebagai proxy pola lokal; kedekatan nomor ID tidak sama dengan jarak fisik bangunan.
+
+Beberapa keputusan yang penting selama pengerjaan:
+
+- Menjaga `building_id` sebagai string agar angka nol di depan tidak berubah, lalu memastikan urutan prediksi mengikuti `sample_submission.csv`.
+- Memisahkan fitur sebelum gempa dari kolom yang mungkin menggambarkan kondisi sesudah gempa.
+- Menggunakan `Pipeline` dan `ColumnTransformer` untuk preprocessing, model, serta inferensi dari bundle yang tersimpan.
+- Memeriksa F1 per kelas, confusion matrix, perbedaan antarkandidat, dan apakah perbaikan pada validasi cukup konsisten untuk dipertahankan.
+- Menjaga submission 010 tetap utuh ketika eksperimen berikutnya belum memiliki bukti skor Kaggle yang lebih tinggi.
+
+Penjelasan metode dan percobaan yang tidak berhasil ada di [METODOLOGI.md](reports/METODOLOGI.md), [CATATAN_EKSPERIMEN.md](reports/CATATAN_EKSPERIMEN.md), dan [EXPERIMENT_RESULTS.md](reports/EXPERIMENT_RESULTS.md).
+
+## Eksperimen lanjutan: submission 012
+
+Setelah meninjau kembali risiko target encoding dan penggunaan ID, saya menjalankan eksperimen baru dengan prosedur yang lebih terpisah. Statistik fitur kelompok dibentuk dari bagian training, sedangkan fitur target tetangga dan target encoding memakai cross-fitting. ID numerik utuh tidak dimasukkan sebagai fitur. Namun fragmen ID masih dipakai sebagai proxy, sehingga potensi ketergantungan pada pola wilayah tetap perlu diuji.
+
+Run ini melatih **tiga LightGBM dan satu CatBoost non-neural**, kemudian membandingkan **69 kandidat keputusan**. Resep yang terpilih menggunakan **25% LightGBM (`lgb47`) dan 75% CatBoost (`cat_numeric`)**, ditambah offset kelas hasil kalibrasi.
+
+| Bagian data | Jumlah baris | Kegunaan |
+|---|---:|---|
+| FIT | 426.772 | Pelatihan dan cross-fitting |
+| CAL | 37.342 | Early stopping dan kalibrasi |
+| SEL | 37.342 | Memilih konfigurasi, bobot, dan offset |
+| AUDIT | 32.009 | Evaluasi setelah pilihan dikunci |
+
+Pada bagian AUDIT yang sama, baseline LightGBM menghasilkan Macro F1 **0,590189**, sementara kandidat 012 mencapai **0,602359** (selisih **+0,012170**). Kenaikan terutama terlihat pada Grade 2, 3, dan 4. Interval bootstrap berpasangan yang dilaporkan untuk selisih terhadap baseline adalah sekitar **[+0,008584; +0,015711]**. Ini bukan interval untuk selisih dengan skor Kaggle 010.
+
+Kandidat 012 menghasilkan **20.831 prediksi berbeda** dibandingkan file 010. Jumlah perubahan itu tidak membuktikan prediksinya lebih baik. Saya menyimpan 012 untuk menunjukkan eksperimen dan evaluasinya, bukan menggantikan submission utama.
+
+Catatan selengkapnya: [analisis 012](reports/fixed_run/ANALYSIS.md) · [metrik audit](reports/fixed_run/metrics.json) · [notebook dengan output analisis](notebooks/10_leakage_fixed_experiment.ipynb) · [pemeriksaan reproduksi bundle](reports/fixed_run/bundle_verification.json).
+
+## Interpretasi dan keterbatasan
+
+Pada validasi historis v7, F1 Grade 2 sekitar **0,473** dan Grade 3 sekitar **0,491**. Pada audit 012 nilainya sekitar **0,479** dan **0,496**. Angka-angka itu berasal dari split berbeda, sehingga saya tidak mengartikannya sebagai peningkatan langsung dari v7 ke 012. Keduanya justru menunjukkan persoalan yang sama: tingkat kerusakan menengah sulit dibedakan.
+
+Uji geografis tambahan untuk 012 menunjukkan penurunan Macro F1 dari **0,518197** pada random split ke **0,441427** pada split prefix wilayah yang tidak bertumpang tindih. Ukuran data dan distribusi holdout pada uji itu berbeda dari eksperimen utama. Hasilnya mengingatkan bahwa model masih bergantung pada pola lokal, bukan memberikan angka koreksi langsung untuk leaderboard.
+
+Saya juga tidak menganggap seluruh risiko leakage sudah hilang hanya karena beberapa pemeriksaan lulus. Riwayat pengembangan model memakai data ini berkali-kali; karena itu holdout pada run baru tidak saya klaim sebagai test yang benar-benar belum pernah disentuh sepanjang proyek. Penjelasan lengkap ada di [audit kebocoran](reports/LEAKAGE_AUDIT.md) dan [analisis 012](reports/fixed_run/ANALYSIS.md).
+
+## Reproduksibilitas: apa yang sudah dan belum terbukti
+
+| Hal yang diperiksa | Status |
+|---|---|
+| Integritas dan urutan seluruh 228.629 prediksi submission 010 | Terverifikasi, termasuk checksum file |
+| Training ulang persis ensemble historis yang menghasilkan 010 | **Belum terbukti**; sebagian checkpoint historis tidak tersedia |
+| Pipeline modular dari dataset mentah | Source code tersedia; smoke test pada GitHub Actions berhasil |
+| Pelatihan, pemilihan model, full refit, dan output analisis 012 | Log, konfigurasi, metrik, serta notebook analisis tersimpan |
+| Replay submission 012 dari bundle model yang disimpan | Dilaporkan **byte-identical** untuk seluruh test pada lingkungan eksperimen |
+| Bundle terlatih 012 tersedia di repository public | **Tidak**; bundle disimpan terpisah dan tidak dilacak Git |
+| Training 012 dari clone bersih di CI, lalu membandingkan CSV baru | **Belum diuji**; CI tidak menjalankan full training 012 |
+| Skor Kaggle public/private untuk 012 | **Belum ada bukti** |
 
 [![Reproducibility checks](https://github.com/Constantine1507/Structural-Damage-Classification/actions/workflows/reproducibility.yml/badge.svg)](https://github.com/Constantine1507/Structural-Damage-Classification/actions/workflows/reproducibility.yml)
 
-**Submission final:** [`010_Constantine(10).csv`](submissions/010_Constantine(10).csv). SHA-256 file `2764f5f59a3924b982a72584edb4facdd8aeabde16519a8ce0e04e45975d0767`. CSV ini tidak ditimpa oleh eksperimen baru.
+[GitHub Actions run #5 (14 Oktober 2026)](https://github.com/Constantine1507/Structural-Damage-Classification/actions/runs/38513775622) berhasil: **19 pengujian lulus**, pemeriksaan CSV 010 lulus, dan notebook 09 dijalankan sebagai smoke test. Output eksekusi notebook 09 tersedia sebagai workflow artifact. Run CI ini bukan reproduksi pelatihan akhir 010 maupun full refit 012.
 
-Dari clone baru, jalankan `python -m pip install -r requirements.txt nbclient nbconvert ipykernel`, `python -m pytest -q`, lalu `python -m jupyter nbconvert --execute --to notebook notebooks/09_end_to_end_verified.ipynb --output 09_executed.ipynb --output-dir artifacts`. Pemeriksaan meliputi checksum data, skema submission, serta fit–save–reload model non-neural baru. Ringkasan eksekusi dibuat di `artifacts/reproduction_evidence/verified_evidence.json`.
+Untuk 010, file final memiliki SHA-256 `2764f5f59a3924b982a72584edb4facdd8aeabde16519a8ce0e04e45975d0767`. Untuk 012, SHA-256 CSV yang dicatat adalah `b10072cca29ffbfa36d07228d1000139054cfc17193f2f61aedc7a8d3c73a396`. Audit yang membedakan data mentah, checkpoint historis, dan submission ada di [PROVENANCE_010.md](reports/PROVENANCE_010.md) serta [EVIDENCE_INDEX.md](reports/EVIDENCE_INDEX.md).
 
-**Status notebook:** notebook 09 dalam branch `main` berisi kode sumber **tanpa output sel yang disimpan**. [GitHub Actions run #3 yang lulus pada 14 Oktober 2026](https://github.com/Constantine1507/Structural-Damage-Classification/actions/runs/38499691437) menyimpan notebook **hasil eksekusi** beserta JSON verifikasi sebagai *workflow artifact*, bukan sebagai perubahan file notebook sumber. Notebook 01–03 dan 05–08 juga belum menyimpan output, sedangkan notebook 04 menyimpan output ringkasan historis (bukan training baru).
-
-**Batas reproduksi:** laporan v6/v7 menggunakan label train historis yang pernah diamati selama seleksi model. Arsip 454 MB dibutuhkan untuk audit historis lengkap dan tidak tersedia di clone biasa. CSV final 010 sudah bisa diverifikasi byte-identical, tetapi training ulang ensemble historis persis 010 belum terbukti; 439 prediksi berbeda terhadap replay native v7. Tanpa ground truth Kaggle test, confusion matrix test maupun skor private tidak dapat dihitung.
-
-Alur notebook: [01 EDA](notebooks/01_eda.ipynb) → [02 Modeling](notebooks/02_modeling.ipynb) → [03 Submission](notebooks/03_submission.ipynb), menggunakan ZIP di `data/`. Notebook 02 menyimpan hasil eksperimen modular ke `artifacts/notebook02_modular/`, bukan ke folder `submissions/`. [Notebook 09](notebooks/09_end_to_end_verified.ipynb) adalah pemeriksaan terpisah untuk hasil final 010.
-
-## Hasil yang saya pertahankan
-
-| Catatan | Hasil | Keterangan |
-|---|---:|---|
-| **Best public leaderboard** | **0,60627** | Submission ke-10, `010_Constantine(10).csv` |
-| Posisi pada tangkapan layar 13 Oktober 2026 | **1 dari 25 peserta** | Posisi sementara, bukan hasil private |
-| Skor pengiriman lain dalam tangkapan layar | 0,60621 | Keterkaitan dengan hash kandidat 011 belum diverifikasi |
-| Private leaderboard | **Belum diketahui** | Baru tersedia setelah penutupan kompetisi |
-
-Saya memilih tetap memakai **submission ke-10** sebagai acuan. Ada kandidat lanjutan pada `submissions/011_Constantine_candidate.csv`, tetapi kenaikan pada pengecekan lokal sangat kecil dan belum cukup kuat untuk menyimpulkan bahwa hasil Kaggle akan lebih baik. Skor 0,60627 adalah *skor publik yang dilaporkan dan diperlihatkan lewat leaderboard*, bukan keluaran dari menjalankan ulang `scripts/train.py`.
-
-## Kandidat 012 setelah perbaikan kebocoran data
-
-Eksperimen baru melatih **tiga LightGBM dan satu CatBoost non-neural**, lalu membandingkan **69 kandidat keputusan** pada bagian seleksi terpisah. Resep terpilih: 75% CatBoost + 25% LightGBM, dengan offset kelas dari bagian kalibrasi. Statistik konteks hanya dipelajari dari train; fitur target tetangga dan target encoding menggunakan cross-fitting. Prefix ID masih menjadi proxy pola lokal dan tetap memiliki keterbatasan.
-
-| Evaluasi pada split baru yang sama | Macro F1 |
-|---|---:|
-| Baseline LightGBM tanpa kalibrasi | 0,590189 |
-| Kandidat 012, audit setelah seleksi dikunci | **0,602359** |
-| Selisih audit | **+0,012170** |
-| Kaggle kandidat 012 | **Belum diketahui** |
-
-Peningkatan tersebut berlaku terhadap baseline run baru. **Belum terbukti mengalahkan submission 010 dengan public 0,60627; target 0,65 belum tercapai.** Audit tidak dipakai untuk seleksi run ini, tetapi dataset historis sudah pernah digunakan dalam eksperimen sebelumnya.
-
-- CSV kandidat: [`012_Constantine_leakage_fixed.csv`](submissions/012_Constantine_leakage_fixed.csv).
-- [Analisis lengkap, confusion matrix, pemeriksaan kebocoran, dan batas kesimpulan](reports/fixed_run/ANALYSIS.md).
-- [Notebook 10 dengan output analisis aktual dan sel untuk menjalankan training](notebooks/10_leakage_fixed_experiment.ipynb).
-- Implementasi: [`leakage_fixed.py`](scripts/leakage_fixed.py), [`run_fixed_experiment.py`](scripts/run_fixed_experiment.py), dan [`resume_fixed_refit.py`](scripts/resume_fixed_refit.py).
-
-Untuk run baru, ekstrak `train.csv`, `test.csv`, dan `sample_submission.csv` ke `data/`, lalu jalankan `python -m scripts.run_fixed_experiment --data data --output artifacts/fixed_run`. Jalur eksperimen 012 memakai folder CSV, bukan path ZIP. Versi paket aktual tersedia di [`requirements-run.txt`](reports/fixed_run/requirements-run.txt). Pelatihan akhir yang diserahkan memakai resume 8 thread tanpa seleksi ulang; detail dan bukti replay model tersimpan ada dalam laporan. Replay bundle tersimpan pada seluruh 228.629 baris test menghasilkan CSV identik byte demi byte. Bundle model beserta referensi latih disimpan terpisah secara privat.
-
-## Kenapa kasus ini tidak sederhana?
-
-Dataset kompetisi terdiri dari **533.465 baris train** dan **228.629 baris test**. Kelas kerusakannya tidak seimbang. Dalam evaluasi lokal historis, kelas 2 dan 3 sering saling tertukar; justru dua kelas itulah yang paling menahan Macro F1. Karena itu saya tidak hanya mengejar accuracy, melainkan membandingkan F1 per kelas, confusion matrix, perubahan keputusan kelas, dan konsistensi antarfold.
-
-Pendekatan yang saya coba berkembang dari model boosting dengan fitur karakteristik bangunan, lalu variasi penanganan kelas dan lokasi, sampai blending dan koreksi keputusan berdasarkan kelompok. Tidak semua percobaan menghasilkan peningkatan. Saya tetap mencatat yang gagal agar alasan mempertahankan submission terbaik bisa ditelusuri.
-
-Bacaan utama:
-- [Metode: data, fitur, model, validasi, dan pemeriksaan leakage](reports/METODOLOGI.md)
-- [Catatan eksperimen: termasuk percobaan yang tidak naik](reports/CATATAN_EKSPERIMEN.md)
-- [Hasil akhir dan batas kesimpulan](reports/HASIL_AKHIR.md)
-- [Audit kebocoran data](reports/LEAKAGE_AUDIT.md)
-- [Rincian eksperimen historis](reports/EXPERIMENT_RESULTS.md) dan [submission 10–11](reports/SUBMISSION_10_AND_NEXT.md)
-- [Indeks bukti eksperimen, output notebook, dan batas reproduksi](reports/EVIDENCE_INDEX.md)
-
-## Gambaran proses
-
-1. Memastikan data train/test dan format submission cocok, terutama kolom `building_id` dan `damage_grade`.
-2. EDA: distribusi target, missing value, kategori material, serta karakteristik bangunan sebelum gempa.
-3. Menyusun fitur rasio dan interaksi yang masuk akal dari segi kerentanan bangunan. Prefix ID dan kode wilayah diuji sebagai proxy, bukan dianggap koordinat atau bukti geologi.
-4. Mencoba boosting (LightGBM, CatBoost), class weighting, target encoding berlipat, variasi kompleksitas, dan blending probabilitas. Sebagian pengujian menggunakan model atau cache eksperimen historis.
-5. Menyeleksi kandidat memakai Macro F1 pada data validasi, lalu memeriksa apakah perubahan tetap konsisten pada fold historis. Koreksi kecil yang interval ketidakpastiannya masih melintasi nol **tidak otomatis menggantikan model lama**.
-6. Mengecek integritas CSV submission, mengarsipkan versi terbaik, dan memisahkan skor Kaggle dari skor lokal.
-
-**Penting tentang reproduksi:** `scripts/train.py` adalah **pipeline eksperimen modular yang dapat dijalankan ulang**, bukan rekonstruksi persis ensemble historis yang menghasilkan public score 0,60627. CSV submission 10–11 serta laporan skor tersimpan, tetapi beberapa checkpoint/model sementara dan prediksi validasi per baris dari eksperimen historis tidak lagi tersedia. Saya tidak mengklaim bahwa satu perintah training di repo ini langsung menghasilkan skor 0,60627.
-
-## Struktur repo
+## Struktur repository
 
 ```text
 Structural-Damage-Classification/
 ├── README.md
 ├── requirements.txt
 ├── .gitignore
-├── data/                       # salinan ZIP kompetisi masih ada; CSV lain diabaikan Git
+├── data/                         # arsip ZIP kompetisi
 ├── notebooks/
-│   ├── 01_eda.ipynb
-│   ├── 02_modeling.ipynb
-│   ├── 03_submission.ipynb
+│   ├── 01_eda.ipynb              # eksplorasi
+│   ├── 02_modeling.ipynb         # pipeline modular
+│   ├── 03_submission.ipynb       # pemeriksaan format
 │   ├── 04_experiment_review.ipynb
 │   ├── 05_submission10_and_refinement.ipynb
 │   ├── 06_hasil_akhir.ipynb
 │   ├── 07_standalone_reproduction.ipynb
 │   ├── 08_submission10_verified.ipynb
 │   ├── 09_end_to_end_verified.ipynb
-│   └── 10_leakage_fixed_experiment.ipynb
-├── scripts/
-│   ├── feature_engineering.py
-│   ├── preprocess.py
-│   ├── train.py
-│   ├── predict.py
-│   ├── evaluate.py
-│   ├── inspect_results.py
-│   ├── leakage_fixed.py
-│   ├── run_fixed_experiment.py
-│   ├── resume_fixed_refit.py
-│   ├── predict_fixed.py
-│   ├── verify_fixed_delivery.py
-│   ├── describe_fixed_errors.py
-│   └── summarize_fixed_run.py
+│   └── 10_leakage_fixed_experiment.ipynb  # analisis lanjutan 012
+├── scripts/                      # preprocessing, training, audit, inferensi
 ├── tests/
-├── models/                     # checkpoint lokal, tidak dilacak Git
+├── models/                       # hanya placeholder; checkpoint privat
 ├── submissions/
-│   ├── 010_Constantine(10).csv
+│   ├── 010_Constantine(10).csv   # HASIL UTAMA
 │   ├── 011_Constantine_candidate.csv
-│   └── 012_Constantine_leakage_fixed.csv
+│   └── 012_Constantine_leakage_fixed.csv   # EKSPERIMEN LANJUTAN
 └── reports/
-    ├── METODOLOGI.md
-    ├── CATATAN_EKSPERIMEN.md
     ├── HASIL_AKHIR.md
-    ├── EXPERIMENT_RESULTS.md
-    ├── SUBMISSION_10_AND_NEXT.md
-    ├── LEAKAGE_AUDIT.md
-    ├── experiment_history.json
-    ├── submission10_followup_results.json
-    └── fixed_run/              # laporan, metrik, kontrol, log, dan confusion matrix kandidat 012
+    ├── METODOLOGI.md
+    ├── EVIDENCE_INDEX.md
+    └── fixed_run/               # laporan, log, gambar, metrik 012
 ```
 
 ## Cara menjalankan
 
-Butuh Python 3.10+; semua langkah dari root repository.
+Gunakan Python 3.10+ untuk pipeline modular. Versi paket yang dipakai saat eksperimen 012 dicatat terpisah dalam [`reports/fixed_run/requirements-run.txt`](reports/fixed_run/requirements-run.txt). Jalankan perintah dari root repository.
 
 ```bash
 git clone https://github.com/Constantine1507/Structural-Damage-Classification.git
 cd Structural-Damage-Classification
 python -m venv .venv
-# PowerShell: .\.venv\Scripts\Activate.ps1
+# Windows PowerShell: .\.venv\Scripts\Activate.ps1
 # Linux/macOS: source .venv/bin/activate
-python -m pip install -r requirements.txt
+python -m pip install -r requirements.txt nbclient nbconvert ipykernel
 python -m pytest -q
 ```
 
-Dataset ZIP kompetisi `data/structural-damage-classification.zip` masih tersimpan di repository ini (sekitar 17 MB); ini perlu ditinjau lagi jika aturan redistribusi kompetisi melarangnya. Alternatif yang disarankan: unduh dataset dari Kaggle setelah menerima rules, lalu letakkan `train.csv`, `test.csv`, dan `sample_submission.csv` dalam `data/`. Dataset CSV diabaikan Git. Jika menggunakan ZIP yang tersimpan, berikan **path ZIP-nya langsung** pada argumen `--data` (bukan hanya folder `data/`).
+**Memeriksa submission utama 010** tanpa melatih ulang model historis:
 
 ```bash
-# Ringkasan hasil historis dan pemeriksaan dua CSV tanpa melatih ulang
+python -m scripts.audit_submission10 --data data/structural-damage-classification.zip --submission 'submissions/010_Constantine(10).csv'
 python -m scripts.inspect_results
-
-# Pemeriksaan alur cepat: tidak mewakili model akhir
-python -m scripts.train --data data/structural-damage-classification.zip --output outputs/smoke --quick
-
-# Eksperimen modular penuh; memerlukan CPU/RAM dan waktu lebih banyak
-python -m scripts.train --data data/structural-damage-classification.zip --output outputs/full
-
-# Prediksi ulang dari bundle yang benar-benar dihasilkan oleh perintah sebelumnya
-python -m scripts.predict --data data/structural-damage-classification.zip --model outputs/full/model_bundle.joblib --output outputs/full/submission.csv
 ```
 
-Notebook 01–03 mendemonstrasikan alur EDA–modeling–submission untuk **model modular baru** dan memerlukan dataset. Notebook 04–06 meninjau **hasil eksperimen yang telah dicatat**; notebook tersebut tidak diam-diam melatih ulang model lama.
+**Menjalankan pipeline modular** (ini eksperimen terpisah, bukan rekonstruksi 010):
 
-Jika ingin memeriksa format dan perbedaan dua prediksi yang tersedia, jalankan `python -m scripts.inspect_results --data data`. Tool akan memeriksa kecocokan ID terhadap sampel resmi jika dataset tersedia, tetapi **tidak bisa menghitung Macro F1 test** tanpa label tersembunyi.
+```bash
+python -m scripts.train --data data/structural-damage-classification.zip --output artifacts/modular_smoke --quick
+```
 
-## Interpretasi singkat
+**Mengulang eksperimen 012:** ekstrak `train.csv`, `test.csv`, dan `sample_submission.csv` dari ZIP kompetisi ke folder `data/` terlebih dahulu. Perintah berikut melakukan pelatihan dan full refit; membutuhkan sumber daya lebih besar daripada smoke test:
 
-Pada evaluasi historis 60.000 baris, F1 kelas 2 sekitar **0,473** dan kelas 3 sekitar **0,491**, sementara kelas 5 sekitar **0,761**. Perbedaan tersebut menjelaskan mengapa model dengan prediksi kelas mayoritas yang baik belum tentu unggul pada Macro F1. Kelas bertetangga sering tertukar sehingga pendekatan ordinal layak diuji, tetapi **belum bisa dinyatakan lebih bagus** tanpa eksperimen lanjutan.
+```bash
+python -m scripts.run_fixed_experiment --data data --output artifacts/fixed_run
+```
 
-Ada juga risiko menghafal lokasi. Pipeline modular baru mengeluarkan ID lengkap. Namun audit notebook asli menemukan `id_numeric` dalam fitur ensemble historis; penggunaan ID dan konteks transduktif dibahas terpisah pada audit lanjutan. Koreksi yang bergantung pada target, termasuk target encoding atau offset kelompok, harus dipelajari hanya dari bagian training/calibration yang sesuai. Detailnya ada di laporan audit.
+Jika pemrosesan full refit terputus setelah seleksi model tersimpan, tahap akhir dapat dilanjutkan tanpa memilih kandidat ulang:
 
-## Hal yang sengaja saya pisahkan
+```bash
+python -m scripts.resume_fixed_refit --data data --output artifacts/fixed_run --threads 8
+```
 
-| Yang diketahui | Yang belum terbukti |
-|---|---|
-| Skor publik terbaik 0,60627 dan tangkapan layar peringkat 1/25 | Skor private serta peringkat final |
-| Perubahan 685 baris antara dua file CSV tersimpan | Bahwa kandidat 011 lebih bagus di Kaggle |
-| Riwayat eksperimen dan ringkasan validasi terdokumentasi | Reproduksi byte-identical hasil terbaik dari raw-data-only tanpa cache/model historis |
-| Pipeline sklearn dengan `ColumnTransformer` tersedia dan bisa dilatih ulang | Bahwa skor pipeline modular sama dengan public 0,60627 |
+Untuk menguji bundle 012 yang **benar-benar sudah dihasilkan** pada mesin tersebut:
 
-Tugas ini menilai **public leaderboard (15%)**, **private leaderboard (35%)**, serta **struktur/workflow repo, Pipeline + ColumnTransformer, docstring, petunjuk penggunaan, dan interpretasi (50%)**. Penilaian akhir tetap mengikuti dosen dan skor private, bukan asumsi dari ranking sementara.
+```bash
+python -m scripts.verify_fixed_delivery --data data --output artifacts/fixed_run
+python -m scripts.predict_fixed --bundle artifacts/fixed_run/model_bundle.joblib --test data/test.csv --sample data/sample_submission.csv --output artifacts/replayed_012.csv
+```
 
-## Audit mendalam setelah kandidat mendapat 0,60621
+File 010 dalam `submissions/` tidak ditimpa oleh perintah-perintah di atas. Jika mengunduh data dari Kaggle, tetap patuhi ketentuan kompetisi. Arsip ZIP kompetisi yang sekarang ada di repository perlu dipastikan boleh didistribusikan ulang.
 
-[Laporan terbaru](reports/deep_audit/ANALYSIS_060621.md) memuat pemeriksaan ulang data, enam uji perubahan label held-out yang lulus, analisis 685 perpindahan kelas, temuan konteks train+test serta ID numerik pada notebook asli, dan rencana validasi lanjutan. Skor public **0,60621** dicatat sesudah hasil terbaik **0,60627**, tetapi bukti yang menghubungkan skor tersebut dengan hash CSV kandidat 011 belum tersedia. Tidak ditemukan bukti label test langsung pada jalur fitur yang diuji; ini bukan sertifikasi seluruh ensemble bebas leakage. Laporan dan script tersedia di `reports/deep_audit/`.
+## Keputusan akhir
 
-## Pembaruan reproduksibilitas & confusion matrix (14 Oktober 2026)
-
-- Notebook [07_standalone_reproduction.ipynb](notebooks/07_standalone_reproduction.ipynb) menyediakan kode mandiri preprocessing/model, confusion matrix, full refit, dan replay `joblib`. Notebook sumber belum menyimpan output eksekusi; opsi `QUICK=False` menyediakan jalur full run, **bukan** bukti bahwa full run berhasil dijalankan.
-- [Validasi historis yang diaudit](reports/HISTORICAL_VALIDATION_20261014.md) memuat matrix 60.000 baris, Grade 1–5, F1 per kelas dan keterbatasan metode. [Visualisasi SVG](reports/figures/historical_v7_confusion.svg) dan [angka JSON](reports/historical_counts_20261014.json).
-- Script verifikasi: `python -m scripts.historical_checkpoint_audit --data data/structural-damage-classification.zip --checkpoint /path/to/Structural_Damage_NonNeural_Rebuild_Checkpoint.zip`. Checkpoint besar dari sesi riset lama harus tersedia secara terpisah.
-- **Jangan samakan** replay kandidat *baru* dengan submission 010 yang terbaik di Kaggle (public 0,60627). Seluruh state ensemble historis belum tersedia untuk rekonstruksi byte-identical 010. Tidak ada label test tersembunyi untuk confusion matrix Kaggle, dan validasi historis sudah terkena adaptivity.
-
-## Submission ke-10: verifikasi file dan validasi historis
-
-Submission final adalah [`010_Constantine(10).csv`](submissions/010_Constantine(10).csv), dengan hash SHA-256 **`2764f5f59a3924b982a72584edb4facdd8aeabde16519a8ce0e04e45975d0767`**. Integritas seluruh 228.629 prediksi dan urutan ID telah diverifikasi. Ringkasan pengujian, confusion matrix historis dan penelusuran 439 selisih prediksi dari replay native v7 terdapat pada [laporan verifikasi akhir](reports/SUBMISSION_10_VERIFICATION.md).
-
-Notebook mandiri: [`notebooks/08_submission10_verified.ipynb`](notebooks/08_submission10_verified.ipynb). Kode audit: [`scripts/audit_submission10.py`](scripts/audit_submission10.py). Jalankan `python -m scripts.audit_submission10 --data data/structural-damage-classification.zip --submission "submissions/010_Constantine(10).csv"`. Untuk audit historis, tambahkan `--checkpoint /path/to/Structural_Damage_NonNeural_Rebuild_Checkpoint.zip`.
-
-Pemisahan hasil: CSV final dapat diverifikasi byte-identical, evaluasi historis v6/v7 dapat direkalkulasi dari checkpoint, dan notebook baseline sudah lulus `Run All` mode smoke. Reproduksi **training historis final 010** yang byte-identical dari data mentah masih belum terbukti; hasil mode full belum lulus eksekusi. Skor Kaggle private dan confusion matrix pada hidden test tidak tersedia. Tidak memakai neural network.
-
-
-## Bukti eksekusi end-to-end (14 Oktober 2026)
-
-[Notebook sumber 09](notebooks/09_end_to_end_verified.ipynb) dieksekusi pada [GitHub Actions run #3](https://github.com/Constantine1507/Structural-Damage-Classification/actions/runs/38499691437). Output sel ada di **workflow artifact**, bukan di file notebook pada branch `main`. Pemeriksaan hash dan ID lulus; pipeline LightGBM non-neural baru dilatih pada 9.600 baris dan divalidasi pada 2.400 baris dengan **Macro F1 smoke 0,404740**. Model yang disimpan lalu dimuat ulang menghasilkan prediksi identik. Uji ini **bukan** model yang memperoleh public **0,60627**.
-
-CI berjalan **tanpa** checkpoint historis 454 MB, sehingga audit v6/v7 dilewati pada run tersebut. Angka historis v6 **0,600795670** dan v7 **0,601198136** berasal dari audit lain menggunakan arsip checkpoint. Replay native v7 juga masih berbeda **439 prediksi** dari submission 010, sehingga reproduksi pelatihan lengkap submission terbaik belum terbukti.
-
-Rincian sumber dan batas kesimpulan terdapat pada [laporan provenance](reports/PROVENANCE_010.md), [catatan historis](reports/verified_evidence_20261014.json), serta [indeks bukti](reports/EVIDENCE_INDEX.md).
+Sampai ada hasil Kaggle yang terverifikasi dan lebih baik, **010 tetap submission utama**. Eksperimen 012 saya pertahankan sebagai catatan perbaikan metode, pengujian kebocoran data, serta reproduksi model baru. Pemisahan ini penting supaya peningkatan dokumentasi dan validasi tidak disalahartikan sebagai peningkatan leaderboard.

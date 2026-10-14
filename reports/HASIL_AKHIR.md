@@ -1,33 +1,35 @@
-# Hasil akhir sementara — 13 Oktober 2026
+# Hasil akhir dan keputusan submission — 14 Oktober 2026
 
-## Keputusan submission
+## Submission yang dipertahankan
 
-**File terbaik yang dipertahankan:** `submissions/010_Constantine(10).csv`.
+Saya tetap menggunakan **[`010_Constantine(10).csv`](../submissions/010_Constantine(10).csv)** sebagai submission terbaik yang tercatat pada public leaderboard. Macro F1 publiknya **0,60627**; tangkapan layar 13 Oktober 2026 menunjukkan posisi sementara **1 dari 25 peserta**. Ini adalah hasil yang dilaporkan dari Kaggle, bukan hasil menghitung label test tersembunyi. Bukti unggahan yang memasangkan skor dengan SHA-256 file belum disimpan.
 
-**Public Macro F1: 0,60627**. Pada tangkapan layar leaderboard 13 Oktober, posisi `010_Constantine` adalah **peringkat 1 dari 25 mahasiswa**. Skor submission terbaru pada waktu itu **0,60621**, sehingga best tetap **0,60627**. Angka leaderboard di sini berasal dari bukti tangkapan layar, bukan panggilan langsung ke API Kaggle. **Private Macro F1 dan peringkat akhir belum diketahui.**
+SHA-256 CSV 010: `2764f5f59a3924b982a72584edb4facdd8aeabde16519a8ce0e04e45975d0767`. Seluruh **228.629 baris** sudah melalui pemeriksaan format, kelas, dan urutan ID; pemeriksaan ini berbeda dari melatih ulang model yang membuat CSV.
 
-| File | Jumlah prediksi | Status |
+## Mengapa 012 disimpan sebagai eksperimen lanjutan?
+
+File [`012_Constantine_leakage_fixed.csv`](../submissions/012_Constantine_leakage_fixed.csv) dibuat melalui eksperimen baru setelah audit fitur dan risiko leakage. Saya memisahkan **426.772 FIT**, **37.342 CAL**, **37.342 SEL**, serta **32.009 AUDIT**. Model terpilih memakai bobot **0,25 LightGBM + 0,75 CatBoost**, dengan offset kelas dari kalibrasi.
+
+| Ukuran | Hasil | Catatan |
 |---|---:|---|
-| `010_Constantine(10).csv` | 228.629 | Acuan terbaik dari public leaderboard (berdasarkan laporan/screenshot) |
-| `011_Constantine_candidate.csv` | 228.629 | Kandidat lokal; belum ada asosiasi yang terverifikasi dengan skor Kaggle tertentu |
+| Macro F1 baseline LightGBM pada audit 012 | 0,590189 | Dibandingkan pada baris audit yang sama |
+| Macro F1 kandidat 012 pada audit tersebut | **0,602359** | Evaluasi sesudah pemilihan kandidat dikunci |
+| Selisih terhadap baseline lokal | **+0,012170** | Bukan peningkatan terhadap skor Kaggle 010 |
+| Prediksi 012 yang berbeda dari 010 | **20.831** | Perubahan label, belum tentu perbaikan |
+| Public/private Kaggle untuk 012 | **Belum diketahui** | Tidak ada skor yang bisa diklaim |
 
-Dua file tersebut punya skema `building_id,damage_grade` dengan integer kelas 1–5. Rekap sebelumnya mencatat hash SHA-256 untuk keduanya dan beda **685 prediksi**. Pemeriksaan otomatis untuk skema, hash, dan perbedaan bisa dijalankan lewat `python -m scripts.inspect_results`.
+Interval bootstrap berpasangan untuk selisih kandidat terhadap baseline pada audit 012 adalah sekitar **[+0,008584; +0,015711]**. Interval ini tidak menghitung dampak seluruh iterasi historis yang pernah dilakukan. Skor validasi 012 juga tidak dapat dibandingkan langsung dengan public score 010, karena evaluasinya memakai data dan prosedur berbeda.
 
-## Apa yang bisa saya simpulkan?
+Detail tabel per kelas, confusion matrix, pengujian wilayah, dan catatan keterbatasan ada di [`fixed_run/ANALYSIS.md`](fixed_run/ANALYSIS.md). Saya mempertahankan hasil yang gagal atau belum meyakinkan dalam laporan eksperimen agar alasan memilih 010 bisa ditelusuri.
 
-Model secara kompetitif berada pada posisi paling tinggi dari 25 peserta **pada screenshot public leaderboard**. Namun nilai Macro F1 tersebut tidak sama dengan accuracy dan tidak menyatakan model sudah cukup untuk penilaian keselamatan bangunan nyata.
+## Bukti yang tersedia
 
-Eksperimen setelah submission ke-10 belum menunjukkan peningkatan yang meyakinkan. Koreksi jenis lantai dasar memperbaiki pooled confirmation sekitar **+0,000102**, tetapi interval bootstrap 95% masih meliputi nol; dua fold menurun. Saya memilih tidak melebih-lebihkan selisih ini.
+- **010:** file final, checksum, pemeriksaan ID, audit prediksi historis, serta GitHub Actions yang berhasil menjalankan verifikasi dasar.
+- **012:** log training, konfigurasi yang dipilih dan dibekukan, metrik audit, notebook analisis dengan output, dan catatan replay dari bundle model tersimpan. CSV replay dilaporkan identik byte demi byte dengan 012.
+- **Yang belum dapat dibuktikan:** training ulang historis yang mereproduksi 010 persis dari data mentah; full training 012 dari clone bersih pada CI; serta skor private Kaggle.
 
-Kelemahan terbesar tetap pada kelas kerusakan menengah, terutama kelas 2 dan 3, yang sering tertukar pada confirmation historis. Pekerjaan berikutnya yang paling masuk akal adalah mengevaluasi kesalahan antarkelas bertetangga secara lebih disiplin, bukan menganggap model dengan pohon lebih banyak otomatis lebih baik.
+Pada [GitHub Actions run #5](https://github.com/Constantine1507/Structural-Damage-Classification/actions/runs/38513775622), **19 pengujian lulus**. Run tersebut terutama memeriksa 010 dan menjalankan smoke notebook 09, bukan melatih penuh 012. Checkpoint terlatih 012 tidak disertakan dalam repository publik, sehingga replay dari bundle memerlukan artefak privat tersebut.
 
-## Batasan pelaporan
+## Catatan penutup
 
-- **Skor publik**: diketahui dari screenshot/laporan, tidak dihitung menggunakan label test tersembunyi.
-- **Skor lokal**: berasal dari skema FIT/CAL/SEL dan confirmation historis; sebagian data ini sudah dipakai dalam banyak iterasi sehingga sifatnya adaptif.
-- **Skor private**: belum diketahui, jangan diisi dengan skor lokal.
-- **Reproduksi**: file CSV final tersimpan; eksperimen modular dapat dijalankan dari raw data. Namun ensemble dan cache historis yang melahirkan CSV ke-10 belum tersedia seluruhnya sebagai checkpoint dalam repo.
-- **Target 0,65**: belum tercapai, baik sebagai skor public yang terbukti maupun skor private.
-- **Aspek tugas**: struktur repository, Pipeline + ColumnTransformer, docstring, README, dan interpretasi disediakan; keputusan penilaian milik dosen.
-
-Kesimpulan saya sederhana: untuk sementara **submission ke-10 tetap hasil yang layak dipertahankan**. Eksperimen selanjutnya perlu menunjukkan peningkatan yang konsisten pada validasi yang layak sebelum mengubah file utama.
+Pada versi ini saya membedakan **submission terbaik berdasarkan leaderboard (010)** dari **eksperimen lanjutan yang lebih lengkap catatan validasinya (012)**. Dokumentasi 012 tidak saya jadikan dasar untuk mengganti 010. Sampai ada skor Kaggle 012 yang benar-benar terverifikasi, keputusan akhirnya tidak berubah.
