@@ -14,7 +14,6 @@ Prediksi tingkat kerusakan bangunan akibat gempa Nepal 2015 menggunakan data sur
 | Posisi pada tangkapan layar 13 Oktober 2026 | **1 dari 25 peserta** | Posisi sementara, bukan hasil private |
 | Submission terakhir yang terlihat pada tangkapan layar | 0,60621 
 | Private leaderboard | **Belum diketahui** | Baru tersedia setelah penutupan kompetisi |
-| Target pribadi | 0,65 | **Belum tercapai** |
 
 Saya memilih tetap memakai **submission ke-10** sebagai acuan. Ada kandidat lanjutan pada `submissions/011_Constantine_candidate.csv`, tetapi kenaikan pada pengecekan lokal sangat kecil dan belum cukup kuat untuk menyimpulkan bahwa hasil Kaggle akan lebih baik. Skor 0,60627 adalah *skor publik yang dilaporkan dan diperlihatkan lewat leaderboard*, bukan keluaran dari menjalankan ulang `scripts/train.py`.
 
