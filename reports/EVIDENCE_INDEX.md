@@ -16,7 +16,7 @@ Dokumen ini mencatat apa yang benar-benar tersedia di repository. Skor Kaggle, v
 
 | Klaim | Bukti | Batasnya |
 |---|---|---|
-| Kandidat 012 dibuat melalui run baru dan bukan salinan 010 | [`012_Constantine_leakage_fixed.csv`](../submissions/012_Constantine_leakage_fixed.csv), [`fixed_run/refit.log`](fixed_run/refit.log), [`fixed_run/metrics.json`](fixed_run/metrics.json) | Skor public 012 dilaporkan 0,60449; private belum diketahui |
+| Kandidat 012 dibuat melalui run baru dan bukan salinan 010 | [`010_Constantine(12).csv`](../submissions/010_Constantine(12).csv), [`fixed_run/refit.log`](fixed_run/refit.log), [`fixed_run/metrics.json`](fixed_run/metrics.json) | Skor public 012 dilaporkan 0,60449; private belum diketahui |
 | Split FIT/CAL/SEL/AUDIT dan konfigurasi dibekukan | [`fixed_run/protocol.json`](fixed_run/protocol.json), [`fixed_run/frozen_selection.json`](fixed_run/frozen_selection.json) | Holdout audit tidak digunakan untuk seleksi pada run itu, tetapi bukan test historis yang benar-benar baru |
 | Macro F1 audit **0,602359** versus baseline **0,590189** | [`fixed_run/metrics.json`](fixed_run/metrics.json), [`fixed_run/ANALYSIS.md`](fixed_run/ANALYSIS.md) | Perbandingan sesama eksperimen 012, bukan perbandingan skor publik dengan 010 |
 | Public Kaggle 012 dilaporkan **0,60449** pada 14 Oktober 2026 | [`fixed_run/metrics.json`](fixed_run/metrics.json), [`fixed_run/ANALYSIS.md`](fixed_run/ANALYSIS.md) | Berdasarkan laporan unggahan peserta, belum diverifikasi melalui Kaggle API atau arsip unggahan yang terikat hash CSV; masih di bawah 010 (0,60627) |

@@ -7,7 +7,7 @@
 | Submission | Public Macro F1 yang dilaporkan | Peran |
 | --- | ---: | --- |
 | `010_Constantine(10).csv` | **0,60627** | Hasil utama |
-| `012_Constantine_leakage_fixed.csv` | **0,60449** | Eksperimen lanjutan, opsi kedua jika kompetisi mengizinkan |
+| `010_Constantine(12).csv` | **0,60449** | Eksperimen lanjutan, opsi kedua jika kompetisi mengizinkan |
 
 Perbedaan public 012 terhadap 010 adalah **−0,00178**. Skor berasal dari laporan unggahan Kaggle 13–14 Oktober 2026; screenshot unggahan yang mengaitkan skor dengan SHA-256 CSV belum disimpan. Private score keduanya belum diketahui.
 

@@ -2,7 +2,7 @@
 
 ## Hasil dan keputusan
 
-Kandidat baru `012_Constantine_leakage_fixed.csv` dihasilkan dari pelatihan ulang, bukan dari penggantian nama CSV lama. Macro F1 seleksi adalah **0.597649**, sedangkan Macro F1 evaluasi akhir adalah **0.602359**. Skor Kaggle kandidat ini dilaporkan sebesar **0,60449** pada 14 Oktober 2026, lebih rendah **0,00178** dari submission ke-10. Submission ke-10 dengan skor publik 0,60627 tetap menjadi acuan terbaik yang telah dilaporkan.
+Kandidat baru `010_Constantine(12).csv` dihasilkan dari pelatihan ulang, bukan dari penggantian nama CSV lama. Macro F1 seleksi adalah **0.597649**, sedangkan Macro F1 evaluasi akhir adalah **0.602359**. Skor Kaggle kandidat ini dilaporkan sebesar **0,60449** pada 14 Oktober 2026, lebih rendah **0,00178** dari submission ke-10. Submission ke-10 dengan skor publik 0,60627 tetap menjadi acuan terbaik yang telah dilaporkan.
 
 Angka validasi pada split baru tidak dapat langsung dibandingkan dengan angka validasi eksperimen historis atau skor public leaderboard. Data historis sudah sering dipakai dalam eksperimen. Karena itu bagian audit ini hanya disebut tidak dipakai untuk seleksi dalam run ini, bukan data yang belum pernah dilihat dalam seluruh riwayat proyek.
 

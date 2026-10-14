@@ -8,7 +8,7 @@ SHA-256 CSV 010: `2764f5f59a3924b982a72584edb4facdd8aeabde16519a8ce0e04e45975d07
 
 ## Mengapa 012 disimpan sebagai eksperimen lanjutan?
 
-File [`012_Constantine_leakage_fixed.csv`](../submissions/012_Constantine_leakage_fixed.csv) dibuat melalui eksperimen baru setelah audit fitur dan risiko leakage. Saya memisahkan **426.772 FIT**, **37.342 CAL**, **37.342 SEL**, serta **32.009 AUDIT**. Model terpilih memakai bobot **0,25 LightGBM + 0,75 CatBoost**, dengan offset kelas dari kalibrasi.
+File [`010_Constantine(12).csv`](../submissions/010_Constantine(12).csv) dibuat melalui eksperimen baru setelah audit fitur dan risiko leakage. Saya memisahkan **426.772 FIT**, **37.342 CAL**, **37.342 SEL**, serta **32.009 AUDIT**. Model terpilih memakai bobot **0,25 LightGBM + 0,75 CatBoost**, dengan offset kelas dari kalibrasi.
 
 | Ukuran | Hasil | Catatan |
 |---|---:|---|

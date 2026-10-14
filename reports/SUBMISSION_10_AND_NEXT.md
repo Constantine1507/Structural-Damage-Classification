@@ -9,7 +9,7 @@
 | File | SHA-256 | Status |
 |:--|:--|:--|
 | `010_Constantine(10).csv` | `2764f5f59a3924b982a72584edb4facdd8aeabde16519a8ce0e04e45975d0767` | Acuan public terbaik yang dilaporkan |
-| `011_Constantine_candidate.csv` | `3b3f560d466b103f22b0dfddad50e15a84c39725d38b5fcb4bb60f429812e907` | Kandidat eksperimen, belum memiliki skor Kaggle |
+| `010_Constantine(11).csv` | `3b3f560d466b103f22b0dfddad50e15a84c39725d38b5fcb4bb60f429812e907` | Kandidat eksperimen, skor public 0,60621 dilaporkan; hubungan skor dengan checksum belum diarsipkan |
 
 Keduanya berisi 228.629 baris, ID unik dan kelas integer 1–5, header `building_id,damage_grade`. Kandidat berikutnya berbeda pada **685 baris** dari submission 10. File ke-10 berbeda pada 439 baris dari replay native model v7; penyebabnya belum terverifikasi.
 
@@ -32,7 +32,7 @@ Putaran kedua melatih **empat model tambahan** pada CAL: LogisticRegression C=0,
 
 ## Interpretasi dan keputusan
 
-**Submission 10 tetap acuan public terbaik.** Kandidat `011_Constantine_candidate.csv` menggunakan koreksi jenis lantai dasar × 0,35 di atas resep submission 10. Bukti unggahan Kaggle yang mengikat hash kandidat 011 ke skor public belum tersedia. Uji lokal tidak cukup untuk menyimpulkan bahwa kandidat mengungguli 0,60627.
+**Submission 10 tetap acuan public terbaik.** Kandidat `010_Constantine(11).csv` menggunakan koreksi jenis lantai dasar × 0,35 di atas resep submission 10. Bukti unggahan Kaggle yang mengikat hash kandidat 011 ke skor public belum tersedia. Uji lokal tidak cukup untuk menyimpulkan bahwa kandidat mengungguli 0,60627.
 
 Pemilihan akhir juga melihat confirmation sehingga bersifat adaptif. Historical metadata sudah menyatakan data ini bukan test independen yang baru. Bootstrap bersyarat pada resep terpilih dan tidak mengoreksi seluruh pencarian. Jangan menyebut angka 0,601289 sebagai skor Kaggle.
 

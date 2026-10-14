@@ -52,7 +52,7 @@ Pada putaran kedua, **4 model tambahan** (LogisticRegression C=0,01/0,1 dan Ligh
 
 ## Kandidat ke-11 dan keputusan
 
-`011_Constantine_candidate.csv` berbeda pada **685 baris** dari `010_Constantine(10).csv`. Dari pemeriksaan lokal, kandidat itu masuk akal untuk diuji, tetapi **tidak terbukti mengalahkan 0,60627**. Skor submission terakhir yang tampak pada tangkapan layar, 0,60621, belum dapat dipasangkan secara pasti dengan hash CSV kandidat ini; karena itu saya tidak mengklaim file 011 menghasilkan skor tersebut.
+`010_Constantine(11).csv` berbeda pada **685 baris** dari `010_Constantine(10).csv`. Dari pemeriksaan lokal, kandidat itu masuk akal untuk diuji, tetapi **tidak terbukti mengalahkan 0,60627**. Skor submission terakhir yang tampak pada tangkapan layar, 0,60621, belum dapat dipasangkan secara pasti dengan hash CSV kandidat ini; karena itu saya tidak mengklaim file 011 menghasilkan skor tersebut.
 
 Saya tetap menyimpan submission ke-10 sebagai hasil terbaik yang terkonfirmasi di public leaderboard. Private leaderboard belum tersedia.
 

@@ -13,8 +13,8 @@ Proyek ini memprediksi tingkat kerusakan bangunan akibat gempa Nepal 2015 ke dal
 | Berkas | Peran | Hasil yang bisa dilaporkan | Keputusan |
 |---|---|---|---|
 | [`010_Constantine(10).csv`](submissions/010_Constantine(10).csv) | **Submission utama** | Public Macro F1 **0,60627** (catatan leaderboard) | Tetap digunakan sebagai best public |
-| [`011_Constantine_candidate.csv`](submissions/011_Constantine_candidate.csv) | Arsip kandidat sebelumnya | Skor pengiriman 0,60621 pernah dilaporkan; hubungan dengan hash berkas 011 belum terverifikasi | Bukan pengganti 010 |
-| [`012_Constantine_leakage_fixed.csv`](submissions/012_Constantine_leakage_fixed.csv) | **Eksperimen lanjutan** dengan pemisahan evaluasi lebih jelas | Macro F1 **0,602359** pada audit lokal; public Kaggle **0,60449** (hasil unggahan dilaporkan 14 Oktober 2026) | Dicatat sebagai kandidat, bukan best public |
+| [`010_Constantine(11).csv`](submissions/010_Constantine(11).csv) | Arsip kandidat sebelumnya | Skor pengiriman 0,60621 pernah dilaporkan; hubungan dengan hash berkas 011 belum terverifikasi | Bukan pengganti 010 |
+| [`010_Constantine(12).csv`](submissions/010_Constantine(12).csv) | **Eksperimen lanjutan** dengan pemisahan evaluasi lebih jelas | Macro F1 **0,602359** pada audit lokal; public Kaggle **0,60449** (hasil unggahan dilaporkan 14 Oktober 2026) | Dicatat sebagai kandidat, bukan best public |
 
 Skor publik kandidat 012 sebesar **0,60449** lebih rendah **0,00178** daripada submission 010 (**0,60627**), sehingga 010 tetap menjadi hasil terbaik. Sumber skor terbaru adalah laporan hasil unggahan; bukti penghubung hash CSV dengan halaman unggahan Kaggle belum disimpan.
 
@@ -106,8 +106,8 @@ Structural-Damage-Classification/
 ├── models/                       # hanya placeholder; checkpoint privat
 ├── submissions/
 │   ├── 010_Constantine(10).csv   # HASIL UTAMA
-│   ├── 011_Constantine_candidate.csv
-│   └── 012_Constantine_leakage_fixed.csv   # EKSPERIMEN LANJUTAN
+│   ├── 010_Constantine(11).csv
+│   └── 010_Constantine(12).csv   # EKSPERIMEN LANJUTAN
 └── reports/
     ├── HASIL_AKHIR.md
     ├── METODOLOGI.md

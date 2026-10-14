@@ -56,7 +56,7 @@ Saya mempertahankan submission terbaik ketika kandidat baru hanya meningkat tipi
 Pada tahap pengumpulan, saya memisahkan hasil terbaik menurut leaderboard dari eksperimen perbaikan yang baru selesai:
 
 - **010** (`submissions/010_Constantine(10).csv`) tetap menjadi submission utama. Public Macro F1 **0,60627** berasal dari catatan leaderboard; training ensemble historisnya belum berhasil direproduksi persis dari data mentah.
-- **012** (`submissions/012_Constantine_leakage_fixed.csv`) adalah percobaan lanjutan menggunakan `SafeFeatures`, target encoding dan label tetangga yang di-cross-fit, serta partisi FIT/CAL/SEL/AUDIT yang terpisah. Model pemenang 25% LightGBM + 75% CatBoost memperoleh Macro F1 lokal **0,602359** pada AUDIT. Public Macro F1 Kaggle 012 dilaporkan **0,60449** pada 14 Oktober 2026; skor private belum diketahui. Bukti unggahan yang mengaitkan public score dengan hash CSV belum tersimpan.
+- **012** (`submissions/010_Constantine(12).csv`) adalah percobaan lanjutan menggunakan `SafeFeatures`, target encoding dan label tetangga yang di-cross-fit, serta partisi FIT/CAL/SEL/AUDIT yang terpisah. Model pemenang 25% LightGBM + 75% CatBoost memperoleh Macro F1 lokal **0,602359** pada AUDIT. Public Macro F1 Kaggle 012 dilaporkan **0,60449** pada 14 Oktober 2026; skor private belum diketahui. Bukti unggahan yang mengaitkan public score dengan hash CSV belum tersimpan.
 
 Audit 012 memakai 32.009 baris, dengan baseline LightGBM **0,590189** pada baris yang sama. Selisih lokal **+0,012170** tidak dapat digunakan untuk menyimpulkan 012 mengalahkan public score 010. Prediksi final 012 dilaporkan cocok byte demi byte dengan replay dari bundle model yang tersimpan pada lingkungan eksperimen; bundle tersebut tidak dipublikasikan di repository.
 
