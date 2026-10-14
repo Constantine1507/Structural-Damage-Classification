@@ -132,4 +132,4 @@ Tugas ini menilai **public leaderboard (15%)**, **private leaderboard (35%)**, s
 
 ## Audit mendalam setelah kandidat mendapat 0,60621
 
-[Laporan terbaru](reports/deep_audit/ANALYSIS_060621.md) memuat pemeriksaan ulang data, enam uji perubahan label held-out yang lulus, analisis 685 perpindahan kelas, temuan konteks train+test serta ID numerik pada notebook asli, dan rencana validasi lanjutan. Kandidat 011 mendapat public **0,60621 menurut pengguna**, di bawah acuan **0,60627**. Tidak ditemukan bukti label test langsung pada jalur fitur yang diuji; ini bukan sertifikasi seluruh ensemble bebas leakage. Laporan dan script tersedia di `reports/deep_audit/`.
+[Laporan terbaru](reports/deep_audit/ANALYSIS_060621.md) memuat pemeriksaan ulang data, enam uji perubahan label held-out yang lulus, analisis 685 perpindahan kelas, temuan konteks train+test serta ID numerik pada notebook asli, dan rencana validasi lanjutan. Kandidat 011 mendapat public **0,60621**, di bawah acuan **0,60627**. Tidak ditemukan bukti label test langsung pada jalur fitur yang diuji; ini bukan sertifikasi seluruh ensemble bebas leakage. Laporan dan script tersedia di `reports/deep_audit/`.
