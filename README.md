@@ -12,7 +12,7 @@ Prediksi tingkat kerusakan bangunan akibat gempa Nepal 2015 menggunakan data sur
 |---|---:|---|
 | **Best public leaderboard** | **0,60627** | Submission ke-10, `010_Constantine(10).csv` |
 | Posisi pada tangkapan layar 13 Oktober 2026 | **1 dari 25 peserta** | Posisi sementara, bukan hasil private |
-| Submission terakhir yang terlihat pada tangkapan layar | 0,60621 | Tidak menggantikan best score; dikaitkan dengan kandidat 011 menurut laporan pengguna dalam percakapan |
+| Submission terakhir yang terlihat pada tangkapan layar | 0,60621 
 | Private leaderboard | **Belum diketahui** | Baru tersedia setelah penutupan kompetisi |
 | Target pribadi | 0,65 | **Belum tercapai** |
 
@@ -130,8 +130,6 @@ Ada juga risiko menghafal lokasi. Pipeline modular baru mengeluarkan ID lengkap.
 | Pipeline sklearn dengan `ColumnTransformer` tersedia dan bisa dilatih ulang | Bahwa skor pipeline modular sama dengan public 0,60627 |
 
 Tugas ini menilai **public leaderboard (15%)**, **private leaderboard (35%)**, serta **struktur/workflow repo, Pipeline + ColumnTransformer, docstring, petunjuk penggunaan, dan interpretasi (50%)**. Penilaian akhir tetap mengikuti dosen dan skor private, bukan asumsi dari ranking sementara.
-
-*Catatan pembaruan: 13 Oktober 2026. Semua angka hasil Kaggle dibedakan dari hasil validasi lokal. Tidak ada neural network dalam pendekatan proyek ini.*
 
 ## Audit mendalam setelah kandidat mendapat 0,60621
 
