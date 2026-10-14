@@ -1,11 +1,14 @@
 name: Reproducibility checks
+
 on:
   push:
     branches: [main]
   pull_request:
   workflow_dispatch:
+
 permissions:
   contents: read
+
 jobs:
   notebook-and-tests:
     runs-on: ubuntu-latest
@@ -16,22 +19,60 @@ jobs:
         with:
           python-version: '3.11'
           cache: 'pip'
-      - name: Install test and notebook dependencies
+
+      - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           python -m pip install -r requirements.txt nbclient nbconvert ipykernel
-      - name: Unit and leakage checks
+
+      - name: Unit and leakage tests
         run: python -m pytest -q
-      - name: Execute evidence notebook using competition data
+
+      - name: Verify archived submission 010
+        run: |
+          python -m scripts.audit_submission10 \
+            --data data/structural-damage-classification.zip \
+            --submission "submissions/010_Constantine(10).csv" \
+            --output artifacts/ci/submission010
+
+      - name: Re-execute reproducibility notebook
         run: |
           mkdir -p artifacts/ci
-          python -m jupyter nbconvert --execute --to notebook             notebooks/09_end_to_end_verified.ipynb             --ExecutePreprocessor.timeout=600             --output 09_ci_executed.ipynb             --output-dir artifacts/ci
-      - name: Upload executed notebook and machine-readable results
+          python -m jupyter nbconvert \
+            --to notebook \
+            --execute notebooks/09_end_to_end_verified.ipynb \
+            --ExecutePreprocessor.timeout=600 \
+            --output 09_ci_executed.ipynb \
+            --output-dir artifacts/ci
+
+      - name: Assert execution evidence was produced
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          notebook = Path("artifacts/ci/09_ci_executed.ipynb")
+          evidence = Path("artifacts/reproduction_evidence/verified_evidence.json")
+          assert notebook.is_file() and evidence.is_file()
+          report = json.loads(evidence.read_text(encoding="utf-8"))
+          assert report["submission010"]["sample_order_identical"]
+          assert report["submission010"]["rows"] == 228629
+          assert report["dataset"]["train_rows"] == 533465
+          assert report["smoke"]["saved_model_reloaded_predictions_identical"]
+          assert report["smoke"]["fit_rows"] == 9600
+          assert report["smoke"]["validation_rows"] == 2400
+          assert report["historical_checkpoint"]["status"] in {"SKIPPED", "VERIFIED"}
+          assert report["submission010"]["exact_original_training_reproduced"] is False
+          print("Reproduction evidence PASS")
+          PY
+
+      - name: Upload executed notebook and verification artifacts
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: verified-reproduction-notebook
+          name: submission010-reproduction-evidence
           path: |
             artifacts/ci/09_ci_executed.ipynb
+            artifacts/ci/submission010/submission10_integrity.json
             artifacts/reproduction_evidence/verified_evidence.json
           if-no-files-found: warn

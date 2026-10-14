@@ -6,6 +6,18 @@ Prediksi tingkat kerusakan bangunan akibat gempa Nepal 2015 menggunakan data sur
 
 [Kompetisi Kaggle](https://www.kaggle.com/t/a9196b92680b4492aeb06aeaee94f654) · [Instruksi tugas](https://docs.google.com/document/d/1e8SbPqX3BX6_hsmawrtFu9kn80WotSfbORxYNg6cNBE/edit)
 
+## Status verifikasi submission 010
+
+[![Reproducibility checks](https://github.com/Constantine1507/Structural-Damage-Classification/actions/workflows/reproducibility.yml/badge.svg)](https://github.com/Constantine1507/Structural-Damage-Classification/actions/workflows/reproducibility.yml)
+
+**Submission final:** [`010_Constantine(10).csv`](submissions/010_Constantine(10).csv). SHA-256 file `2764f5f59a3924b982a72584edb4facdd8aeabde16519a8ce0e04e45975d0767`. CSV ini tidak ditimpa oleh eksperimen baru.
+
+Dari clone baru, jalankan `python -m pip install -r requirements.txt nbclient nbconvert ipykernel`, `python -m pytest -q`, lalu `jupyter nbconvert --execute --to notebook notebooks/09_end_to_end_verified.ipynb --output 09_executed.ipynb --output-dir artifacts`. Notebook memeriksa file submission, checksum data, model baseline non-neural yang dilatih dan dimuat ulang, serta menghasilkan `artifacts/reproduction_evidence/verified_evidence.json`. CI mengunggah notebook hasil eksekusi sebagai artifact; [riwayat workflow](https://github.com/Constantine1507/Structural-Damage-Classification/actions/workflows/reproducibility.yml) menjadi sumber status run.
+
+**Batas reproduksi:** laporan v6/v7 menggunakan label train historis yang pernah diamati selama seleksi model. Arsip 454 MB dibutuhkan untuk audit historis lengkap dan tidak tersedia di clone biasa. CSV final 010 sudah bisa diverifikasi byte-identical, tetapi training ulang ensemble historis persis 010 belum terbukti; 439 prediksi berbeda terhadap replay native v7. Tanpa ground truth Kaggle test, confusion matrix test maupun skor private tidak dapat dihitung.
+
+Alur notebook: [01 EDA](notebooks/01_eda.ipynb) → [02 Modeling](notebooks/02_modeling.ipynb) → [03 Submission](notebooks/03_submission.ipynb), menggunakan ZIP di `data/`. Notebook 02 menyimpan hasil eksperimen modular ke `artifacts/notebook02_modular/`, bukan ke folder `submissions/`. [Notebook 09](notebooks/09_end_to_end_verified.ipynb) adalah pemeriksaan terpisah untuk hasil final 010.
+
 ## Hasil yang saya pertahankan
 
 | Catatan | Hasil | Keterangan |

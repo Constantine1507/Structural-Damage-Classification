@@ -50,3 +50,8 @@ Dataset kompetisi dipakai dari `data/structural-damage-classification.zip`, dan 
 GitHub Actions menjalankan notebook tanpa checkpoint eksternal, menyimpan notebook **hasil eksekusi sebagai workflow artifact** serta menjalankan pengujian repo. Notebook yang telah dieksekusi dan disimpan di repository dibuat dengan arsip asli lengkap pada 14 Oktober 2026; hasil log tetap merupakan bukti satu lingkungan, bukan janji seluruh mesin menghasilkan floating point identik. Paket, perangkat, random seed, versi, dan artefak akhir harus dicatat untuk eksperimen selanjutnya.
 
 Bukti smoke bukan reproduksi model kompetisi terbaik. Interpretasi confusion matrix ada di `reports/HISTORICAL_VALIDATION_20261014.md`.
+
+
+## Catatan perbaikan verifikasi otomatis, 14 Oktober 2026
+
+Pemeriksaan tambahan mengunci SHA-256 dataset dan submission di pengujian notebook serta menghilangkan penggunaan direktori CSV yang belum diekstrak pada notebook 01–03. Semua output eksperimen modular baru disimpan di bawah `artifacts/`, sehingga file terbaik `010_Constantine(10).csv` tetap utuh. Notebook verifikasi menghasilkan laporan JSON dari eksekusi saat ini dan GitHub Actions menyimpan notebook yang dieksekusi sebagai artifact. Riwayat lokal dan hasil workflow tidak dicampur: audit historis memerlukan checkpoint eksternal, sedangkan pemeriksaan integritas submission dan pelatihan baseline smoke dijalankan pada clone bersih.
