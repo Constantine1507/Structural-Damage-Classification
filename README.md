@@ -140,3 +140,11 @@ Tugas ini menilai **public leaderboard (15%)**, **private leaderboard (35%)**, s
 - [Validasi historis yang diaudit](reports/HISTORICAL_VALIDATION_20261014.md) memuat matrix 60.000 baris, Grade 1–5, F1 per kelas dan keterbatasan metode. [Visualisasi SVG](reports/figures/historical_v7_confusion.svg) dan [angka JSON](reports/historical_counts_20261014.json).
 - Script verifikasi: `python -m scripts.historical_checkpoint_audit --data data/structural-damage-classification.zip --checkpoint /path/to/Structural_Damage_NonNeural_Rebuild_Checkpoint.zip`. Checkpoint besar dari sesi riset lama harus tersedia secara terpisah.
 - **Jangan samakan** replay kandidat *baru* dengan submission 010 yang terbaik di Kaggle (public 0,60627). Seluruh state ensemble historis belum tersedia untuk rekonstruksi byte-identical 010. Tidak ada label test tersembunyi untuk confusion matrix Kaggle, dan validasi historis sudah terkena adaptivity.
+
+## Submission ke-10: verifikasi file dan validasi historis
+
+Submission final adalah [`010_Constantine(10).csv`](submissions/010_Constantine(10).csv), dengan hash SHA-256 **`2764f5f59a3924b982a72584edb4facdd8aeabde16519a8ce0e04e45975d0767`**. Integritas seluruh 228.629 prediksi dan urutan ID telah diverifikasi. Ringkasan pengujian, confusion matrix historis dan penelusuran 439 selisih prediksi dari replay native v7 terdapat pada [laporan verifikasi akhir](reports/SUBMISSION_10_VERIFICATION.md).
+
+Notebook mandiri: [`notebooks/08_submission10_verified.ipynb`](notebooks/08_submission10_verified.ipynb). Kode audit: [`scripts/audit_submission10.py`](scripts/audit_submission10.py). Jalankan `python -m scripts.audit_submission10 --data data/structural-damage-classification.zip --submission "submissions/010_Constantine(10).csv"`. Untuk audit historis, tambahkan `--checkpoint /path/to/Structural_Damage_NonNeural_Rebuild_Checkpoint.zip`.
+
+Pemisahan hasil: CSV final dapat diverifikasi byte-identical, evaluasi historis v6/v7 dapat direkalkulasi dari checkpoint, dan notebook baseline sudah lulus `Run All` mode smoke. Reproduksi **training historis final 010** yang byte-identical dari data mentah masih belum terbukti; hasil mode full belum lulus eksekusi. Skor Kaggle private dan confusion matrix pada hidden test tidak tersedia. Tidak memakai neural network.

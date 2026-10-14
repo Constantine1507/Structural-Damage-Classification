@@ -43,7 +43,7 @@ def read_inputs(source):
 
 def labels(values):
     """Read Grade 1..5 or numeric 1..5 with strict validation."""
-    values = values.astype("string").str.strip().str.extract(r"^(?:Grade\\s*)?([1-5])$", expand=False)
+    values = values.astype("string").str.strip().str.extract(r"^(?:Grade\s*)?([1-5])$", expand=False)
     if values.isna().any():
         raise ValueError("Unrecognized damage_grade values")
     return values.astype(int).to_numpy()
