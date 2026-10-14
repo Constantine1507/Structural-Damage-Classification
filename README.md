@@ -133,3 +133,10 @@ Tugas ini menilai **public leaderboard (15%)**, **private leaderboard (35%)**, s
 ## Audit mendalam setelah kandidat mendapat 0,60621
 
 [Laporan terbaru](reports/deep_audit/ANALYSIS_060621.md) memuat pemeriksaan ulang data, enam uji perubahan label held-out yang lulus, analisis 685 perpindahan kelas, temuan konteks train+test serta ID numerik pada notebook asli, dan rencana validasi lanjutan. Kandidat 011 mendapat public **0,60621**, di bawah acuan **0,60627**. Tidak ditemukan bukti label test langsung pada jalur fitur yang diuji; ini bukan sertifikasi seluruh ensemble bebas leakage. Laporan dan script tersedia di `reports/deep_audit/`.
+
+## Pembaruan reproduksibilitas & confusion matrix (14 Oktober 2026)
+
+- Notebook **mandiri** [07_standalone_reproduction.ipynb](notebooks/07_standalone_reproduction.ipynb) berisi seluruh definisi model/preprocessing (tanpa impor `scripts/`), visualisasi confusion, full refit, save/replay model dengan `joblib`, dan verifikasi CSV byte-identical. Input ZIP kompetisi; `QUICK=False` untuk full.
+- [Validasi historis yang diaudit](reports/HISTORICAL_VALIDATION_20261014.md) memuat matrix 60.000 baris, Grade 1–5, F1 per kelas dan keterbatasan metode. [Visualisasi SVG](reports/figures/historical_v7_confusion.svg) dan [angka JSON](reports/historical_counts_20261014.json).
+- Script verifikasi: `python -m scripts.historical_checkpoint_audit --data data/structural-damage-classification.zip --checkpoint /path/to/Structural_Damage_NonNeural_Rebuild_Checkpoint.zip`. Checkpoint besar dari sesi riset lama harus tersedia secara terpisah.
+- **Jangan samakan** replay kandidat *baru* dengan submission 010 yang terbaik di Kaggle (public 0,60627). Seluruh state ensemble historis belum tersedia untuk rekonstruksi byte-identical 010. Tidak ada label test tersembunyi untuk confusion matrix Kaggle, dan validasi historis sudah terkena adaptivity.

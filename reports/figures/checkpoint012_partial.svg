@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="695" viewBox="0 0 760 695" role="img" aria-label="Partial 012 audit, 32,009 rows"><rect width="760" height="695" fill="#ffffff"/><text x="100" y="45" font-family="Arial" font-size="22" font-weight="bold">Partial 012 audit, 32,009 rows</text>
+<text x="18" y="182" font-family="Arial" font-size="16">Actual 1</text><text x="145" y="126" font-family="Arial" font-size="16">Pred 1</text>
+<rect x="118" y="140" width="112" height="91" fill="#2465b1" fill-opacity="0.342"/><text x="174" y="191" text-anchor="middle" font-family="Arial" font-size="18" fill="#12253d">2,329</text>
+<rect x="235" y="140" width="112" height="91" fill="#2465b1" fill-opacity="0.167"/><text x="291" y="191" text-anchor="middle" font-family="Arial" font-size="18" fill="#12253d">649</text>
+<rect x="352" y="140" width="112" height="91" fill="#2465b1" fill-opacity="0.117"/><text x="408" y="191" text-anchor="middle" font-family="Arial" font-size="18" fill="#12253d">166</text>
+<rect x="469" y="140" width="112" height="91" fill="#2465b1" fill-opacity="0.111"/><text x="525" y="191" text-anchor="middle" font-family="Arial" font-size="18" fill="#12253d">103</text>
+<rect x="586" y="140" width="112" height="91" fill="#2465b1" fill-opacity="0.107"/><text x="642" y="191" text-anchor="middle" font-family="Arial" font-size="18" fill="#12253d">63</text>
+<text x="18" y="279" font-family="Arial" font-size="16">Actual 2</text><text x="262" y="126" font-family="Arial" font-size="16">Pred 2</text>
+<rect x="118" y="237" width="112" height="91" fill="#2465b1" fill-opacity="0.160"/><text x="174" y="288" text-anchor="middle" font-family="Arial" font-size="18" fill="#12253d">575</text>
+<rect x="235" y="237" width="112" height="91" fill="#2465b1" fill-opacity="0.290"/><text x="291" y="288" text-anchor="middle" font-family="Arial" font-size="18" fill="#12253d">1,832</text>
+<rect x="352" y="237" width="112" height="91" fill="#2465b1" fill-opacity="0.185"/><text x="408" y="288" text-anchor="middle" font-family="Arial" font-size="18" fill="#12253d">816</text>
+<rect x="469" y="237" width="112" height="91" fill="#2465b1" fill-opacity="0.132"/><text x="525" y="288" text-anchor="middle" font-family="Arial" font-size="18" fill="#12253d">306</text>
+<rect x="586" y="237" width="112" height="91" fill="#2465b1" fill-opacity="0.114"/><text x="642" y="288" text-anchor="middle" font-family="Arial" font-size="18" fill="#12253d">136</text>
+<text x="18" y="376" font-family="Arial" font-size="16">Actual 3</text><text x="379" y="126" font-family="Arial" font-size="16">Pred 3</text>
+<rect x="118" y="334" width="112" height="91" fill="#2465b1" fill-opacity="0.129"/><text x="174" y="385" text-anchor="middle" font-family="Arial" font-size="18" fill="#12253d">282</text>
+<rect x="235" y="334" width="112" height="91" fill="#2465b1" fill-opacity="0.200"/><text x="291" y="385" text-anchor="middle" font-family="Arial" font-size="18" fill="#12253d">968</text>
+<rect x="352" y="334" width="112" height="91" fill="#2465b1" fill-opacity="0.388"/><text x="408" y="385" text-anchor="middle" font-family="Arial" font-size="18" fill="#12253d">2,778</text>
+<rect x="469" y="334" width="112" height="91" fill="#2465b1" fill-opacity="0.234"/><text x="525" y="385" text-anchor="middle" font-family="Arial" font-size="18" fill="#12253d">1,291</text>
+<rect x="586" y="334" width="112" height="91" fill="#2465b1" fill-opacity="0.143"/><text x="642" y="385" text-anchor="middle" font-family="Arial" font-size="18" fill="#12253d">411</text>
+<text x="18" y="473" font-family="Arial" font-size="16">Actual 4</text><text x="496" y="126" font-family="Arial" font-size="16">Pred 4</text>
+<rect x="118" y="431" width="112" height="91" fill="#2465b1" fill-opacity="0.114"/><text x="174" y="482" text-anchor="middle" font-family="Arial" font-size="18" fill="#12253d">138</text>
+<rect x="235" y="431" width="112" height="91" fill="#2465b1" fill-opacity="0.140"/><text x="291" y="482" text-anchor="middle" font-family="Arial" font-size="18" fill="#12253d">382</text>
+<rect x="352" y="431" width="112" height="91" fill="#2465b1" fill-opacity="0.226"/><text x="408" y="482" text-anchor="middle" font-family="Arial" font-size="18" fill="#12253d">1,218</text>
+<rect x="469" y="431" width="112" height="91" fill="#2465b1" fill-opacity="0.575"/><text x="525" y="482" text-anchor="middle" font-family="Arial" font-size="18" fill="white">4,580</text>
+<rect x="586" y="431" width="112" height="91" fill="#2465b1" fill-opacity="0.246"/><text x="642" y="482" text-anchor="middle" font-family="Arial" font-size="18" fill="#12253d">1,404</text>
+<text x="18" y="570" font-family="Arial" font-size="16">Actual 5</text><text x="613" y="126" font-family="Arial" font-size="16">Pred 5</text>
+<rect x="118" y="528" width="112" height="91" fill="#2465b1" fill-opacity="0.112"/><text x="174" y="579" text-anchor="middle" font-family="Arial" font-size="18" fill="#12253d">114</text>
+<rect x="235" y="528" width="112" height="91" fill="#2465b1" fill-opacity="0.134"/><text x="291" y="579" text-anchor="middle" font-family="Arial" font-size="18" fill="#12253d">328</text>
+<rect x="352" y="528" width="112" height="91" fill="#2465b1" fill-opacity="0.180"/><text x="408" y="579" text-anchor="middle" font-family="Arial" font-size="18" fill="#12253d">771</text>
+<rect x="469" y="528" width="112" height="91" fill="#2465b1" fill-opacity="0.306"/><text x="525" y="579" text-anchor="middle" font-family="Arial" font-size="18" fill="#12253d">1,984</text>
+<rect x="586" y="528" width="112" height="91" fill="#2465b1" fill-opacity="0.970"/><text x="642" y="579" text-anchor="middle" font-family="Arial" font-size="18" fill="white">8,385</text>
+<text x="118" y="671" font-family="Arial" font-size="14" fill="#555">Archived training holdout — NOT hidden Kaggle test labels</text></svg>
