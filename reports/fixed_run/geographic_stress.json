@@ -1,0 +1,35 @@
+{
+  "rows": 60000,
+  "used_for_candidate_selection": false,
+  "warning": "Different split designs and a smaller training population: do not interpret this gap as estimated Kaggle optimism or compare these scores directly with full-run scores.",
+  "splits": {
+    "random": {
+      "fit_rows": 48253,
+      "heldout_rows": 11747,
+      "macro_f1": 0.518197184133055,
+      "shared_prefix6_groups": 4313,
+      "heldout_class_counts": {
+        "1": 1216,
+        "2": 1336,
+        "3": 2086,
+        "4": 2862,
+        "5": 4247
+      },
+      "seconds": 43.0
+    },
+    "group_prefix6": {
+      "fit_rows": 48253,
+      "heldout_rows": 11747,
+      "macro_f1": 0.4414271024331393,
+      "shared_prefix6_groups": 0,
+      "heldout_class_counts": {
+        "1": 990,
+        "2": 1304,
+        "3": 2032,
+        "4": 3026,
+        "5": 4395
+      },
+      "seconds": 38.6
+    }
+  }
+}

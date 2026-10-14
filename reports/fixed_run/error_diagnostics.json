@@ -1,0 +1,46 @@
+{
+  "purpose": "Post-selection descriptive analysis only; not used for tuning",
+  "class_comparison": [
+    {
+      "grade": 1,
+      "support": 3310,
+      "baseline_f1": 0.6978783592644979,
+      "candidate_f1": 0.6959449120122417,
+      "delta_f1": -0.001933447252256193
+    },
+    {
+      "grade": 2,
+      "support": 3665,
+      "baseline_f1": 0.44601412714429867,
+      "candidate_f1": 0.4785788923719958,
+      "delta_f1": 0.032564765227697134
+    },
+    {
+      "grade": 3,
+      "support": 5730,
+      "baseline_f1": 0.4767255216693419,
+      "candidate_f1": 0.4964812332439678,
+      "delta_f1": 0.01975571157462591
+    },
+    {
+      "grade": 4,
+      "support": 7722,
+      "baseline_f1": 0.5604788860693604,
+      "candidate_f1": 0.5720888432404673,
+      "delta_f1": 0.01160995717110691
+    },
+    {
+      "grade": 5,
+      "support": 11582,
+      "baseline_f1": 0.7698480450742701,
+      "candidate_f1": 0.7686998610675391,
+      "delta_f1": -0.0011481840067310012
+    }
+  ],
+  "error_rows": 11908,
+  "adjacent_grade_errors": 8852,
+  "adjacent_share_of_errors": 0.7433658045011757,
+  "baseline_wrong_candidate_correct": 1252,
+  "baseline_correct_candidate_wrong": 1163,
+  "subgroup_warning": "Descriptive, varying class mix; no causal claim or geography extrapolation guarantee"
+}

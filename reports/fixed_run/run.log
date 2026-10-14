@@ -1,0 +1,31 @@
+PROTOCOL_FROZEN {'fit': 426772, 'calibration': 37342, 'selection': 37342, 'audit': 32009}
+CROSSFIT_FEATURES_START
+FEATURES_READY (426772, 212)
+FIT_START lgb47
+/root/.local/lib/python3.12/site-packages/lightgbm/sklearn.py:1106: LGBMDeprecationWarning: The argument 'eval_set' is deprecated, use 'eval_X' and 'eval_y' instead.
+  eval_set = _validate_eval_set_Xy(eval_set=eval_set, eval_X=eval_X, eval_y=eval_y)
+FIT_DONE lgb47 rounds 160 seconds 157.6 CAL_RAW 0.5938527693866149
+FIT_START lgb95
+/root/.local/lib/python3.12/site-packages/lightgbm/sklearn.py:1106: LGBMDeprecationWarning: The argument 'eval_set' is deprecated, use 'eval_X' and 'eval_y' instead.
+  eval_set = _validate_eval_set_Xy(eval_set=eval_set, eval_X=eval_X, eval_y=eval_y)
+FIT_DONE lgb95 rounds 190 seconds 255.3 CAL_RAW 0.5933451371364444
+FIT_START lgb31_weighted
+/root/.local/lib/python3.12/site-packages/lightgbm/sklearn.py:1106: LGBMDeprecationWarning: The argument 'eval_set' is deprecated, use 'eval_X' and 'eval_y' instead.
+  eval_set = _validate_eval_set_Xy(eval_set=eval_set, eval_X=eval_X, eval_y=eval_y)
+[300]	valid_0's multi_logloss: 0.899992
+FIT_DONE lgb31_weighted rounds 208 seconds 150.6 CAL_RAW 0.5938408930192081
+FIT_START cat_numeric
+0:	learn: 1.5437413	test: 1.5419552	best: 1.5419552 (0)	total: 1.16s	remaining: 21m 19s
+250:	learn: 0.9007416	test: 0.8897932	best: 0.8897932 (250)	total: 4m 59s	remaining: 16m 52s
+500:	learn: 0.8812717	test: 0.8831114	best: 0.8831114 (500)	total: 9m 57s	remaining: 11m 54s
+750:	learn: 0.8670443	test: 0.8800510	best: 0.8800510 (750)	total: 14m 52s	remaining: 6m 54s
+1000:	learn: 0.8545021	test: 0.8785338	best: 0.8785304 (996)	total: 19m 51s	remaining: 1m 57s
+1099:	learn: 0.8496676	test: 0.8781003	best: 0.8780899 (1098)	total: 21m 52s	remaining: 0us
+
+bestTest = 0.8780898656
+bestIteration = 1098
+
+Shrink model to first 1099 iterations.
+SELECTION_FROZEN {'weights': {'lgb47': 0.25, 'cat_numeric': 0.75}, 'offsets': [-0.13400000000000004, 0.196, 0.14600000000000002, -0.003999999999999988, -0.20400000000000001], 'cal_f1': 0.6028946397222712, 'selection_f1': 0.5976492511804976}
+AUDIT_RESULT 0.6023587483872423 [0.00858368675062399, 0.01571088070118554]
+FULL_REFIT_FEATURES

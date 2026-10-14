@@ -1,0 +1,56 @@
+{
+  "seed": 20261014,
+  "rows": {
+    "fit": 426772,
+    "calibration": 37342,
+    "selection": 37342,
+    "audit": 32009
+  },
+  "candidates": {
+    "lgb47": {
+      "num_leaves": 47,
+      "learning_rate": 0.035,
+      "min_child_samples": 70,
+      "reg_lambda": 8
+    },
+    "lgb95": {
+      "num_leaves": 95,
+      "learning_rate": 0.025,
+      "min_child_samples": 100,
+      "reg_lambda": 12
+    },
+    "lgb31_weighted": {
+      "num_leaves": 31,
+      "learning_rate": 0.04,
+      "min_child_samples": 90,
+      "reg_lambda": 10,
+      "class_weight": {
+        "1": 1.3906456173002668,
+        "2": 1.321656052714355,
+        "3": 1.0570479830826394,
+        "4": 0.9105283108730149,
+        "5": 0.7434444562004308
+      }
+    }
+  },
+  "catboost": {
+    "iterations": 1100,
+    "depth": 8,
+    "learning_rate": 0.05
+  },
+  "n_estimators_max": 1800,
+  "early_stopping_on_calibration": 100,
+  "audit_used_for_selection": false,
+  "historically_pristine_holdout_claimed": false,
+  "test_covariates_used_in_fit": false,
+  "full_numeric_id_feature": false,
+  "neighbor_id_fragments_used": true,
+  "data_sha256": {
+    "train.csv": "231c9bf0430faa9c1d2281b4edbcd9ce0d7a863c6ff67042a8fbc992469d37bb",
+    "test.csv": "d732c3070b878ebc1346907d50e6a6c1a6a9db0eadf0790631b37c03d3ba6c5c"
+  },
+  "versions": {
+    "sklearn": "1.8.0",
+    "lightgbm": "4.7.0"
+  }
+}

@@ -1,0 +1,5 @@
+{
+  "query_label_column_invariance": true,
+  "query_batch_invariance": true,
+  "no_full_id_feature": true
+}

@@ -31,6 +31,26 @@ Alur notebook: [01 EDA](notebooks/01_eda.ipynb) → [02 Modeling](notebooks/02_m
 
 Saya memilih tetap memakai **submission ke-10** sebagai acuan. Ada kandidat lanjutan pada `submissions/011_Constantine_candidate.csv`, tetapi kenaikan pada pengecekan lokal sangat kecil dan belum cukup kuat untuk menyimpulkan bahwa hasil Kaggle akan lebih baik. Skor 0,60627 adalah *skor publik yang dilaporkan dan diperlihatkan lewat leaderboard*, bukan keluaran dari menjalankan ulang `scripts/train.py`.
 
+## Kandidat 012 setelah perbaikan kebocoran data
+
+Eksperimen baru melatih **tiga LightGBM dan satu CatBoost non-neural**, lalu membandingkan **69 kandidat keputusan** pada bagian seleksi terpisah. Resep terpilih: 75% CatBoost + 25% LightGBM, dengan offset kelas dari bagian kalibrasi. Statistik konteks hanya dipelajari dari train; fitur target tetangga dan target encoding menggunakan cross-fitting. Prefix ID masih menjadi proxy pola lokal dan tetap memiliki keterbatasan.
+
+| Evaluasi pada split baru yang sama | Macro F1 |
+|---|---:|
+| Baseline LightGBM tanpa kalibrasi | 0,590189 |
+| Kandidat 012, audit setelah seleksi dikunci | **0,602359** |
+| Selisih audit | **+0,012170** |
+| Kaggle kandidat 012 | **Belum diketahui** |
+
+Peningkatan tersebut berlaku terhadap baseline run baru. **Belum terbukti mengalahkan submission 010 dengan public 0,60627; target 0,65 belum tercapai.** Audit tidak dipakai untuk seleksi run ini, tetapi dataset historis sudah pernah digunakan dalam eksperimen sebelumnya.
+
+- CSV kandidat: [`012_Constantine_leakage_fixed.csv`](submissions/012_Constantine_leakage_fixed.csv).
+- [Analisis lengkap, confusion matrix, pemeriksaan kebocoran, dan batas kesimpulan](reports/fixed_run/ANALYSIS.md).
+- [Notebook 10 dengan output analisis aktual dan sel untuk menjalankan training](notebooks/10_leakage_fixed_experiment.ipynb).
+- Implementasi: [`leakage_fixed.py`](scripts/leakage_fixed.py), [`run_fixed_experiment.py`](scripts/run_fixed_experiment.py), dan [`resume_fixed_refit.py`](scripts/resume_fixed_refit.py).
+
+Untuk run baru, ekstrak `train.csv`, `test.csv`, dan `sample_submission.csv` ke `data/`, lalu jalankan `python -m scripts.run_fixed_experiment --data data --output artifacts/fixed_run`. Jalur eksperimen 012 memakai folder CSV, bukan path ZIP. Versi paket aktual tersedia di [`requirements-run.txt`](reports/fixed_run/requirements-run.txt). Pelatihan akhir yang diserahkan memakai resume 8 thread tanpa seleksi ulang; detail dan bukti replay model tersimpan ada dalam laporan. Replay bundle tersimpan pada seluruh 228.629 baris test menghasilkan CSV identik byte demi byte. Bundle model beserta referensi latih disimpan terpisah secara privat.
+
 ## Kenapa kasus ini tidak sederhana?
 
 Dataset kompetisi terdiri dari **533.465 baris train** dan **228.629 baris test**. Kelas kerusakannya tidak seimbang. Dalam evaluasi lokal historis, kelas 2 dan 3 sering saling tertukar; justru dua kelas itulah yang paling menahan Macro F1. Karena itu saya tidak hanya mengejar accuracy, melainkan membandingkan F1 per kelas, confusion matrix, perubahan keputusan kelas, dan konsistensi antarfold.
@@ -70,19 +90,31 @@ Structural-Damage-Classification/
 │   ├── 03_submission.ipynb
 │   ├── 04_experiment_review.ipynb
 │   ├── 05_submission10_and_refinement.ipynb
-│   └── 06_hasil_akhir.ipynb
+│   ├── 06_hasil_akhir.ipynb
+│   ├── 07_standalone_reproduction.ipynb
+│   ├── 08_submission10_verified.ipynb
+│   ├── 09_end_to_end_verified.ipynb
+│   └── 10_leakage_fixed_experiment.ipynb
 ├── scripts/
 │   ├── feature_engineering.py
 │   ├── preprocess.py
 │   ├── train.py
 │   ├── predict.py
 │   ├── evaluate.py
-│   └── inspect_results.py
+│   ├── inspect_results.py
+│   ├── leakage_fixed.py
+│   ├── run_fixed_experiment.py
+│   ├── resume_fixed_refit.py
+│   ├── predict_fixed.py
+│   ├── verify_fixed_delivery.py
+│   ├── describe_fixed_errors.py
+│   └── summarize_fixed_run.py
 ├── tests/
 ├── models/                     # checkpoint lokal, tidak dilacak Git
 ├── submissions/
 │   ├── 010_Constantine(10).csv
-│   └── 011_Constantine_candidate.csv
+│   ├── 011_Constantine_candidate.csv
+│   └── 012_Constantine_leakage_fixed.csv
 └── reports/
     ├── METODOLOGI.md
     ├── CATATAN_EKSPERIMEN.md
@@ -91,7 +123,8 @@ Structural-Damage-Classification/
     ├── SUBMISSION_10_AND_NEXT.md
     ├── LEAKAGE_AUDIT.md
     ├── experiment_history.json
-    └── submission10_followup_results.json
+    ├── submission10_followup_results.json
+    └── fixed_run/              # laporan, metrik, kontrol, log, dan confusion matrix kandidat 012
 ```
 
 ## Cara menjalankan

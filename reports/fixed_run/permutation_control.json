@@ -1,0 +1,9 @@
+{
+  "rows": 8000,
+  "fit_rows": 6000,
+  "heldout_rows": 2000,
+  "labels_permuted_before_split": true,
+  "macro_f1": 0.20301857884702637,
+  "majority_macro_f1": 0.106529713866471,
+  "interpretation": "Low heldout score is consistent with absence of an obvious target shortcut in this small control; it does not certify every code path."
+}

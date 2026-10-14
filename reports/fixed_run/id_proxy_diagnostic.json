@@ -1,0 +1,9 @@
+{
+  "prefix2_matches_district_fraction": 1.0,
+  "unique_prefix6": 5666,
+  "unique_official_ward": 945,
+  "note": "Prefix6 is not assumed to be the same administrative identifier as ward_id.",
+  "prefix6_mapping_to_multiple_official_wards": 0,
+  "test_prefix6_unseen_rows": 0,
+  "test_prefix6_seen_fraction": 1.0
+}

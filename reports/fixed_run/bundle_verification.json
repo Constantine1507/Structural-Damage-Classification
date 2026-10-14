@@ -1,0 +1,16 @@
+{
+  "sample_rows": 64,
+  "reloaded_pipeline_probabilities_match_cache": true,
+  "max_absolute_difference": 2.9636896048401695e-08,
+  "reloaded_pipeline_labels_match_csv": true,
+  "classes_checked": [
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "full_test_replay_rows": 228629,
+  "full_test_replay_csv_byte_identical": true,
+  "full_test_replay_sha256": "b10072cca29ffbfa36d07228d1000139054cfc17193f2f61aedc7a8d3c73a396"
+}
