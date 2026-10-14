@@ -1,0 +1,105 @@
+{
+  "identity": "submission010_integrity_and_independent_smoke",
+  "original_submission_sha256": "2764f5f59a3924b982a72584edb4facdd8aeabde16519a8ce0e04e45975d0767",
+  "train_sha256": "231c9bf0430faa9c1d2281b4edbcd9ce0d7a863c6ff67042a8fbc992469d37bb",
+  "test_sha256": "d732c3070b878ebc1346907d50e6a6c1a6a9db0eadf0790631b37c03d3ba6c5c",
+  "submit_rows": 228629,
+  "submission_integrity_pass": true,
+  "historical": {
+    "checkpoint_present": true,
+    "v6": {
+      "n": 60000,
+      "macro_f1": 0.6007956703664715,
+      "accuracy": 0.6245166666666667,
+      "confusion_matrix": [
+        [
+          4248,
+          1309,
+          364,
+          171,
+          113
+        ],
+        [
+          995,
+          3435,
+          1741,
+          488,
+          211
+        ],
+        [
+          467,
+          1787,
+          5536,
+          2237,
+          713
+        ],
+        [
+          198,
+          589,
+          2487,
+          8919,
+          2281
+        ],
+        [
+          205,
+          518,
+          1490,
+          4165,
+          15333
+        ]
+      ]
+    },
+    "v7": {
+      "n": 60000,
+      "macro_f1": 0.6011981355546281,
+      "accuracy": 0.6259,
+      "confusion_matrix": [
+        [
+          4289,
+          1267,
+          350,
+          182,
+          117
+        ],
+        [
+          1021,
+          3411,
+          1688,
+          526,
+          224
+        ],
+        [
+          485,
+          1780,
+          5373,
+          2367,
+          735
+        ],
+        [
+          192,
+          573,
+          2332,
+          9058,
+          2319
+        ],
+        [
+          207,
+          512,
+          1386,
+          4183,
+          15423
+        ]
+      ]
+    },
+    "native_v7_vs_010_changed": 439
+  },
+  "smoke": {
+    "fit": 9600,
+    "validation": 2400,
+    "macro_f1": 0.4047398195562499,
+    "replay_predictions_identical": true
+  },
+  "claim_exact_full_training_reproduction_of_010": false,
+  "claim_test_confusion_matrix": false,
+  "claim_private_score_known": false
+}

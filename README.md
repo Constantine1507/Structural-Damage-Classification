@@ -148,3 +148,12 @@ Submission final adalah [`010_Constantine(10).csv`](submissions/010_Constantine(
 Notebook mandiri: [`notebooks/08_submission10_verified.ipynb`](notebooks/08_submission10_verified.ipynb). Kode audit: [`scripts/audit_submission10.py`](scripts/audit_submission10.py). Jalankan `python -m scripts.audit_submission10 --data data/structural-damage-classification.zip --submission "submissions/010_Constantine(10).csv"`. Untuk audit historis, tambahkan `--checkpoint /path/to/Structural_Damage_NonNeural_Rebuild_Checkpoint.zip`.
 
 Pemisahan hasil: CSV final dapat diverifikasi byte-identical, evaluasi historis v6/v7 dapat direkalkulasi dari checkpoint, dan notebook baseline sudah lulus `Run All` mode smoke. Reproduksi **training historis final 010** yang byte-identical dari data mentah masih belum terbukti; hasil mode full belum lulus eksekusi. Skor Kaggle private dan confusion matrix pada hidden test tidak tersedia. Tidak memakai neural network.
+
+
+## Verified end-to-end execution (14 October 2026)
+
+[Notebook 09 — executed evidence](notebooks/09_end_to_end_verified.ipynb) includes **saved cell outputs** from a real run on the original competition dataset and historical checkpoint: SHA/ID checks passed, historical v6/v7 Macro F1 0.600795670/0.601198136, and a fresh non-neural pipeline trained on 9,600 examples, tested on 2,400, with a successful joblib prediction replay (smoke Macro F1 0.404740). The latter is **not** the public 0.60627 ensemble. CI re-executes it against the original dataset on GitHub Actions and uploads an executed notebook artifact (external 454 MB archive is optional and skipped in CI).
+
+**Provenance boundary:** native v7 replay and final submission 010 still differ on **439 rows**. Byte-identical full retraining of the original best ensemble is **not established**. Do not confuse integrity of a preserved CSV with reproducibility of its complete modeling recipe.
+
+Read [the checkpoint-to-submission audit](reports/PROVENANCE_010.md) and [machine-readable execution results](reports/verified_evidence_20261014.json) for exact hashes, test conditions, limits and replay instructions.
