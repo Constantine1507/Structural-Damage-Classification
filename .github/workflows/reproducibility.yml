@@ -45,6 +45,35 @@ jobs:
             --output 09_ci_executed.ipynb \
             --output-dir artifacts/ci
 
+      - name: Execute both final submission notebooks
+        run: |
+          python -m jupyter nbconvert --to notebook --execute notebooks/03_submission.ipynb \
+            --ExecutePreprocessor.timeout=600 --output 03_ci_executed.ipynb --output-dir artifacts/ci
+          python -m jupyter nbconvert --to notebook --execute notebooks/06_hasil_akhir.ipynb \
+            --ExecutePreprocessor.timeout=600 --output 06_ci_executed.ipynb --output-dir artifacts/ci
+
+      - name: Verify submission 010/012 comparison
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          a = Path("artifacts/submission_review")
+          comparison = json.loads((a / "submission_010_012_review.json").read_text())
+          decision = json.loads((a / "final_decision.json").read_text())
+          assert comparison["versions"]["010"]["sample_order_identical"]
+          assert comparison["versions"]["012"]["sample_order_identical"]
+          assert comparison["versions"]["010"]["rows"] == 228629
+          assert comparison["versions"]["012"]["rows"] == 228629
+          assert comparison["changed_predictions"] == 20831
+          assert comparison["hidden_test_labels_used"] is False
+          assert comparison["reported_public_delta_012_minus_010"] == -0.00178
+          assert decision["reported_public_macro_f1"] == {"010": 0.60627, "012": 0.60449}
+          assert decision["private_macro_f1"] is None
+          assert Path("artifacts/ci/03_ci_executed.ipynb").is_file()
+          assert Path("artifacts/ci/06_ci_executed.ipynb").is_file()
+          print("Final submission evidence PASS")
+          PY
+
       - name: Assert execution evidence was produced
         run: |
           python - <<'PY'
@@ -73,6 +102,9 @@ jobs:
           name: submission010-reproduction-evidence
           path: |
             artifacts/ci/09_ci_executed.ipynb
+            artifacts/ci/03_ci_executed.ipynb
+            artifacts/ci/06_ci_executed.ipynb
+            artifacts/submission_review/
             artifacts/ci/submission010/submission10_integrity.json
             artifacts/reproduction_evidence/verified_evidence.json
           if-no-files-found: warn

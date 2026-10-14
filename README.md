@@ -4,7 +4,7 @@
 
 Proyek ini memprediksi tingkat kerusakan bangunan akibat gempa Nepal 2015 ke dalam lima kelas, dari Grade 1 sampai Grade 5. Saya menggunakan model untuk data tabular, terutama LightGBM dan CatBoost. Tidak ada neural network yang digunakan.
 
-[Kompetisi Kaggle](https://www.kaggle.com/t/a9196b92680b4492aeb06aeaee94f654) · [Ketentuan tugas](https://docs.google.com/document/d/1e8SbPqX3BX6_hsmawrtFu9kn80WotSfbORxYNg6cNBE/edit) · [Hasil akhir](reports/HASIL_AKHIR.md)
+[Kompetisi Kaggle](https://www.kaggle.com/t/a9196b92680b4492aeb06aeaee94f654) · [Ketentuan tugas](https://docs.google.com/document/d/1e8SbPqX3BX6_hsmawrtFu9kn80WotSfbORxYNg6cNBE/edit) · [Hasil akhir](reports/HASIL_AKHIR.md) · [Audit dua submission](reports/SUBMISSION_FINAL_REVIEW.md)
 
 ## Hasil utama: submission 010
 
