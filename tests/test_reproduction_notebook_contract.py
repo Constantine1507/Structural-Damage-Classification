@@ -38,10 +38,23 @@ def test_notebook_cells_have_stable_ids():
 
 
 def test_notebook_sources_use_zip_input():
-    """The introductory workflow must run with the committed archive."""
+    """Check required data inputs without depending on Path quote/spacing style."""
     for filename in ("01_eda.ipynb", "02_modeling.ipynb", "03_submission.ipynb"):
-        nb = json.loads((ROOT / "notebooks" / filename).read_text())
-        code = "\n".join("".join(c["source"]) for c in nb["cells"] if c["cell_type"] == "code")
-        assert "data'/'structural-damage-classification.zip" in code
-        assert "read_competition_data(ROOT/'data')" not in code
-        assert "artifacts/notebook02_modular" in code if filename != "01_eda.ipynb" else True
+        nb = json.loads((ROOT / "notebooks" / filename).read_text(encoding="utf-8"))
+        code = "\n".join(
+            "".join(cell["source"]) for cell in nb["cells"] if cell["cell_type"] == "code"
+        )
+        # The EDA and model-fitting notebooks read the original competition ZIP.
+        # Notebook 03 now audits archived final predictions; it does not retrain
+        # the separate notebook02_modular model or require its private bundle.
+        assert "structural-damage-classification.zip" in code, filename
+        assert "read_competition_data(ROOT/'data')" not in code, filename
+        compile(code, filename, "exec")
+        if filename == "02_modeling.ipynb":
+            assert "artifacts/notebook02_modular" in code
+        if filename == "03_submission.ipynb":
+            assert "ZipFile" in code
+            assert "sample_submission.csv" in code
+            assert "010_Constantine(10).csv" in code
+            assert "012_Constantine_leakage_fixed.csv" in code
+            assert "artifacts/notebook02_modular" not in code
