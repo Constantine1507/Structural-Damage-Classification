@@ -2,7 +2,7 @@
 
 ## Hasil dan keputusan
 
-Kandidat baru `012_Constantine_leakage_fixed.csv` dihasilkan dari pelatihan ulang, bukan dari penggantian nama CSV lama. Macro F1 seleksi adalah **0.597649**, sedangkan Macro F1 evaluasi akhir adalah **0.602359**. Skor Kaggle kandidat ini belum diketahui. Submission ke-10 dengan skor publik 0,60627 tetap menjadi acuan terbaik yang telah dilaporkan.
+Kandidat baru `012_Constantine_leakage_fixed.csv` dihasilkan dari pelatihan ulang, bukan dari penggantian nama CSV lama. Macro F1 seleksi adalah **0.597649**, sedangkan Macro F1 evaluasi akhir adalah **0.602359**. Skor Kaggle kandidat ini dilaporkan sebesar **0,60449** pada 14 Oktober 2026, lebih rendah **0,00178** dari submission ke-10. Submission ke-10 dengan skor publik 0,60627 tetap menjadi acuan terbaik yang telah dilaporkan.
 
 Angka validasi pada split baru tidak dapat langsung dibandingkan dengan angka validasi eksperimen historis atau skor public leaderboard. Data historis sudah sering dipakai dalam eksperimen. Karena itu bagian audit ini hanya disebut tidak dipakai untuk seleksi dalam run ini, bukan data yang belum pernah dilihat dalam seluruh riwayat proyek.
 
@@ -127,4 +127,4 @@ Pelatihan akhir pada run yang diserahkan dilanjutkan melalui `python -m scripts.
 
 Untuk replay tanpa training, ekstrak checkpoint privat ke `artifacts/fixed_run`, lalu jalankan `python -m scripts.predict_fixed --bundle artifacts/fixed_run/model_bundle.joblib --test data/test.csv --sample data/sample_submission.csv --output artifacts/replayed_012.csv`.
 
-Rekomendasi: uji kandidat CSV ini di Kaggle. Pertahankan submission ke-10 sebagai pilihan terbukti sampai hasil kandidat baru tersedia.
+Keputusan setelah hasil Kaggle 0,60449: pertahankan submission ke-10 (0,60627) sebagai pilihan final. Kandidat 012 disimpan sebagai eksperimen lanjutan yang dapat direproduksi. Kenaikan terhadap baseline lokal baru tidak membuktikan kenaikan terhadap ensemble historis 010. Selisih skor publik saja tidak membuktikan kebocoran, overfitting, atau penurunan signifikan secara statistik; label test tidak tersedia untuk pemeriksaan berpasangan. Sumber skor adalah laporan hasil unggahan, bukan pengambilan langsung dari Kaggle API.

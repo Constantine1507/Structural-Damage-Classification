@@ -98,7 +98,7 @@
       8576
     ]
   ],
-  "public_kaggle_score": null,
+  "public_kaggle_score": 0.60449,
   "previous_public_best_user_report": 0.60627,
   "rounds": {
     "lgb47": 160,
@@ -120,5 +120,8 @@
     "5": 77343
   },
   "full_refit_threads": 8,
-  "full_refit_resumed_without_reselection": true
+  "full_refit_resumed_without_reselection": true,
+  "public_kaggle_score_source": "user_report_2026-10-14",
+  "public_delta_vs_submission10": -0.00178,
+  "final_submission_retained": "010_Constantine(10).csv"
 }
